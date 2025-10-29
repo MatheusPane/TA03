@@ -1,0 +1,26 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+
+class Dusun extends Model
+{
+    use HasFactory;
+
+    protected $table = 'dusun';
+
+    protected $fillable = [
+        'nama',
+        'tahun_konfigurasi_id',
+        'created_by',
+        'updated_by',
+        'active',
+    ];
+
+    public function tahunKonfigurasi()
+    {
+        return $this->belongsTo(TahunPemerintahanKonfigurasi::class, 'tahun_konfigurasi_id');
+    }
+}
