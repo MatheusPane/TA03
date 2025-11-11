@@ -68,7 +68,7 @@
 @push('scripts')
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 <script src="https://cdn.datatables.net/2.0.8/js/dataTables.min.js"></script>
-<script src="0https://cdn.datatables.net/2.0.8/js/dataTables.bootstrap5.min.js"></script>
+<script src="https://cdn.datatables.net/2.0.8/js/dataTables.bootstrap5.min.js"></script>
 <script src="https://cdn.datatables.net/buttons/3.0.2/js/dataTables.buttons.min.js"></script>
 <script src="https://cdn.datatables.net/buttons/3.0.2/js/buttons.bootstrap5.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
@@ -81,22 +81,21 @@
 
 <script>
 $(document).ready(function() {
-    // Kirim hak akses & route ke JS
     window.Laravel = {
         canEdit: @json(Auth::user()->hasRole('Admin') || Auth::user()->hasRole('Kader')),
         canDelete: @json(Auth::user()->hasRole('Admin')),
         routes: {
+            show: '{{ route('data_keluarga.show', ':id') }}',
             edit: '{{ route('data_keluarga.edit', ':id') }}',
             destroy: '{{ route('data_keluarga.destroy', ':id') }}',
             anggota_create: '{{ route('data_keluarga_anggota.create', ':id') }}',
-            anggota_index: '{{ route('data_keluarga_anggota.index', ':id') }}'
+            anggota_index: '{{ route('data_keluarga_anggota.index', ':id') }}',
+            detail_edit: '{{ route('data_keluarga.detail.edit', ':id') }}'
         }
     };
 
     const table = $('#dataKeluargaTable').DataTable({
-        language: {
-            url: 'https://cdn.datatables.net/plug-ins/1.13.7/i18n/id.json'
-        },
+        language: { url: 'https://cdn.datatables.net/plug-ins/1.13.7/i18n/id.json' },
         pageLength: 10,
         lengthMenu: [10, 25, 50, 100],
         responsive: true,
@@ -110,53 +109,51 @@ $(document).ready(function() {
         columnDefs: [
             { targets: 0, width: '50px', className: 'text-center' },
             { targets: 1, width: '150px' },
-            { targets: 6, orderable: false, width: '200px', className: 'text-center' }
+            { targets: 6, orderable: false, width: '220px', className: 'text-center' }
         ],
-        order: [[1, 'asc']], // Urutkan berdasarkan No KK
+        order: [[1, 'asc']],
         drawCallback: function() {
             $('#dataKeluargaTable tbody tr').each(function() {
                 const id = $(this).data('id');
                 if (!id) return;
 
-                let buttons = `<div class="btn-group" role="group">`;
+                let btn = `<div class="btn-group" role="group">`;
 
-                // Tombol Edit
-                if (window.Laravel.canEdit) {
-                    buttons += `
-                        <a href="${window.Laravel.routes.edit.replace(':id', id)}" class="btn btn-sm btn-warning" title="Edit">
-                            <i class="bi bi-pencil"></i>
-                        </a>
-                    `;
-                }
-
-                // Tombol Hapus
-                if (window.Laravel.canDelete) {
-                    buttons += `
-                        <form action="${window.Laravel.routes.destroy.replace(':id', id)}" method="POST" class="d-inline" onsubmit="return confirm('Yakin hapus keluarga ini?')">
-                            @csrf @method('DELETE')
-                            <button type="submit" class="btn btn-sm btn-danger" title="Hapus">
-                                <i class="bi bi-trash"></i>
-                            </button>
-                        </form>
-                    `;
-                }
+                // Lihat Detail
+                btn += `<a href="${window.Laravel.routes.show.replace(':id', id)}" class="btn btn-sm btn-info" title="Detail Keluarga">
+                    <i class="bi bi-eye"></i>
+                </a>`;
 
                 // Tambah Anggota
-                buttons += `
-                    <a href="${window.Laravel.routes.anggota_create.replace(':id', id)}" class="btn btn-sm btn-info" title="Tambah Anggota">
-                        <i class="bi bi-person-plus"></i>
-                    </a>
-                `;
+                btn += `<a href="${window.Laravel.routes.anggota_create.replace(':id', id)}" class="btn btn-sm btn-success" title="Tambah Anggota">
+                    <i class="bi bi-person-plus"></i>
+                </a>`;
 
                 // Lihat Anggota
-                buttons += `
-                    <a href="${window.Laravel.routes.anggota_index.replace(':id', id)}" class="btn btn-sm btn-secondary" title="Lihat Anggota">
-                        <i class="bi bi-eye"></i>
-                    </a>
-                `;
+                btn += `<a href="${window.Laravel.routes.anggota_index.replace(':id', id)}" class="btn btn-sm btn-secondary" title="Lihat Anggota">
+                    <i class="bi bi-people"></i>
+                </a>`;
 
-                buttons += `</div>`;
-                $(this).find('.aksi-column').html(buttons);
+                if (window.Laravel.canEdit) {
+                    btn += `<a href="${window.Laravel.routes.detail_edit.replace(':id', id)}" class="btn btn-sm btn-outline-warning" title="Isi Detail Fasilitas">
+                        <i class="bi bi-house-gear"></i>
+                    </a>`;
+                    btn += `<a href="${window.Laravel.routes.edit.replace(':id', id)}" class="btn btn-sm btn-warning" title="Edit KK">
+                        <i class="bi bi-pencil"></i>
+                    </a>`;
+                }
+
+                if (window.Laravel.canDelete) {
+                    btn += `<form action="${window.Laravel.routes.destroy.replace(':id', id)}" method="POST" class="d-inline" onsubmit="return confirm('Yakin hapus keluarga ini?')">
+                        @csrf @method('DELETE')
+                        <button type="submit" class="btn btn-sm btn-danger" title="Hapus">
+                            <i class="bi bi-trash"></i>
+                        </button>
+                    </form>`;
+                }
+
+                btn += `</div>`;
+                $(this).find('.aksi-column').html(btn);
             });
 
             $('.dataTables_paginate .page-link').addClass('border-0');

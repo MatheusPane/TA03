@@ -23,4 +23,14 @@ class Dusun extends Model
     {
         return $this->belongsTo(TahunPemerintahanKonfigurasi::class, 'tahun_konfigurasi_id');
     }
+    public function creator()
+    {
+        return $this->belongsTo(User::class, 'created_by');
+    }
+
+    // === SCOPE ACTIVE (WAJIB!) ===
+    public function scopeActive($query)
+    {
+        return $query->where('active', true);
+    }
 }

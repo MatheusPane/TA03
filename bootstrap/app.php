@@ -16,13 +16,13 @@ return Application::configure(basePath: dirname(__DIR__))
             \Illuminate\Session\Middleware\StartSession::class,
             \Illuminate\View\Middleware\ShareErrorsFromSession::class,
             \App\Http\Middleware\HandleInertiaRequests::class,
-
-            // \App\Http\Middleware\IsAdmin::class, // ✅ middleware admin kamu
+            // \App\Http\Middleware\IsAdmin::class,
         ]);
+
         $middleware->alias([
             'is_admin' => \App\Http\Middleware\IsAdmin::class,
-            'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class, // ✅ Tambahkan ini
-
+            'guest'    => \App\Http\Middleware\RedirectIfAuthenticated::class,
+            'role'     => \App\Http\Middleware\RoleMiddleware::class, // GANTI 'roles' → 'role'
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {

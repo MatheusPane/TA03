@@ -219,7 +219,9 @@ class DataWargaController extends Controller
     $warga = DataWarga::with([
         'jabatan', 'statusPerkawinan', 'agama', 'pendidikan', 'pekerjaan',
         'jenisKoperasi', 'jenisAkseptorKb', 'jenisKelompokBelajar',
-        'createdBy', 'updatedBy'
+        'createdBy', 'updatedBy', 'kegiatanWarga' => function($q) {
+            $q->with('refKegiatan')->where('ikut', true);
+        }
     ])->findOrFail($id);
 
     return view('data_warga.show', compact('warga'));

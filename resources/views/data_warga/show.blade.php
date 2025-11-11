@@ -107,8 +107,46 @@
                         </div>
                     </div>
                 </div>
-
-                <!-- Audit Trail -->
+                <div class="col-md-12 mt-4">
+                    <div class="card border-0 shadow-sm" style="border-radius: 12px;">
+                        <div class="card-body">
+                            <h5 class="card-title text-primary">
+                                Kegiatan Warga yang Diikuti
+                            </h5>
+                            @if($warga->kegiatanWarga->count() > 0)
+                                <div class="table-responsive">
+                                    <table class="table table-sm table-borderless">
+                                        <tbody>
+                                            @foreach($warga->kegiatanWarga as $keg)
+                                            <tr>
+                                                <td width="10">
+                                                    <i class="bi bi-check-circle-fill text-success"></i>
+                                                </td>
+                                                <td><strong>{{ $keg->refKegiatan->nama }}</strong></td>
+                                                <td class="text-muted">
+                                                    @if($keg->keterangan)
+                                                        <small><em>{{ $keg->keterangan }}</em></small>
+                                                    @endif
+                                                </td>
+                                            </tr>
+                                            @endforeach
+                                        </tbody>
+                                    </table>
+                                </div>
+                            @else
+                                <p class="text-muted mb-0">
+                                    Belum ada kegiatan yang diikuti.
+                                    @if(Auth::user()->hasRole('Admin') || Auth::user()->hasRole('Kader'))
+                                        <a href="{{ route('kegiatan_warga.index', $warga->id) }}" class="btn btn-sm btn-outline-primary mt-2">
+                                            Isi Kegiatan
+                                        </a>
+                                    @endif
+                                </p>
+                            @endif
+                        </div>
+                    </div>
+                </div>
+                <!-- Audit T    rail -->
                 <div class="col-md-12">
                     <div class="card border-0 shadow-sm" style="border-radius: 12px;">
                         <div class="card-body">
@@ -125,14 +163,18 @@
                 </div>
 
                 <!-- Aksi -->
+                <!-- TOMBOL KEGIATAN (di bagian Aksi) -->
                 <div class="col-md-12 text-end mt-3">
                     @if(Auth::user()->hasRole('Admin') || Auth::user()->hasRole('Kader'))
                         <a href="{{ route('data_warga.edit', $warga->id) }}" class="btn btn-warning" style="border-radius: 10px;">
-                            <i class="bi bi-pencil"></i> Edit
+                            Edit
+                        </a>
+                        <a href="{{ route('kegiatan_warga.index', $warga->id) }}" class="btn btn-info" style="border-radius: 10px;">
+                            Kegiatan Warga
                         </a>
                     @endif
                     <a href="{{ route('data_warga.index') }}" class="btn btn-secondary" style="border-radius: 10px;">
-                        <i class="bi bi-arrow-left"></i> Kembali
+                        Kembali
                     </a>
                 </div>
             </div>

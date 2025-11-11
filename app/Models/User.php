@@ -33,26 +33,25 @@ class User extends Authenticatable
     /**
      * Relasi ke tabel roles (many-to-many)
      */
-    public function roles()
-    {
-        return $this->belongsToMany(Role::class, 'user_roles', 'user_id', 'role_id')
-                    ->withTimestamps()
-                    ->withPivot(['active']);
-    }
+// app/Models/User.php
 
-    /**
-     * Cek apakah user punya role tertentu (bisa satu atau lebih)
-     *
-     * Contoh:
-     * - $user->hasRole('Admin')
-     * - $user->hasRole(['Admin', 'Kader'])
-     */
-    public function hasRole($roleName): bool
-    {
-        if (is_array($roleName)) {
-            return $this->roles()->whereIn('nama', $roleName)->exists();
-        }
+// app/Models/User.php
 
-        return $this->roles()->where('nama', $roleName)->exists();
-    }
+public function roles()
+{
+    return $this->belongsToMany(Role::class, 'user_roles', 'user_id', 'role_id')
+                ->withTimestamps()
+                ->withPivot('active');
+}
+
+public function hasRole($roleName): bool
+{
+    $roleNames = is_array($roleName) ? $roleName : [$roleName];
+
+    // GUNAKAN PROPERTY YANG SUDAH DI-LOAD!
+    return $this->roles
+        ->whereIn('nama', $roleNames)
+        ->where('pivot.active', 1)
+        ->isNotEmpty();
+}
 }

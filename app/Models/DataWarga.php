@@ -83,6 +83,10 @@ class DataWarga extends Model
     {
     return $this->hasOne(DasawismaAnggota::class, 'warga_id');
     }
+    public function kegiatanWarga()
+{
+    return $this->hasMany(KegiatanWarga::class, 'warga_id');
+}
     // =========================
     // 🔹 RELASI USER AUDIT
     // =========================
@@ -96,4 +100,9 @@ class DataWarga extends Model
     {
         return $this->belongsTo(User::class, 'updated_by');
     }
+    public function scopeActive($query)
+    {
+        return $query->where('active', true);
+    }
 }
+

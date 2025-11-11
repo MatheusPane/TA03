@@ -14,18 +14,23 @@ class DataKeluarga extends Model
     protected $fillable = [
         'no_kk',
         'dusun_id',
-        'dasawisma_id', // Tambahan
+        'dasawisma_id', // Sudah ada
         'created_by',
         'updated_by',
         'active',
     ];
 
+    protected $casts = [
+        'active' => 'boolean',
+    ];
+
+    // === RELASI ===
     public function dusun()
     {
         return $this->belongsTo(Dusun::class, 'dusun_id');
     }
 
-    public function dasawisma() // Tambahan
+    public function dasawisma()
     {
         return $this->belongsTo(Dasawisma::class, 'dasawisma_id');
     }
@@ -39,8 +44,27 @@ class DataKeluarga extends Model
     {
         return $this->belongsTo(User::class, 'updated_by');
     }
+
     public function anggotaKeluarga()
     {
         return $this->hasMany(DataKeluargaAnggota::class, 'keluarga_id');
+    }
+
+    public function detail()
+    {
+        return $this->hasOne(DataKeluargaDetail::class, 'keluarga_id');
+    }
+
+    public function kepalaKeluargaAnggota()
+    {
+        return $this->hasOne(DataKeluargaAnggota::class, 'keluarga_id')
+            ->whereHas('statusDalamKeluarga', function ($q) {
+                $q->where('nama', 'like', '%kepala%'); // atau gunakan kode
+            });
+    }
+// Akses warga kepala keluarga
+    public function kepalaKeluarga()
+    {
+        return $this->kepalaKeluargaAnggota()->with('warga');
     }
 }

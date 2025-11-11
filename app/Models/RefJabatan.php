@@ -18,7 +18,11 @@ class RefJabatan extends Model
         'updated_by',
         'active',
     ];
-
+// TAMBAHKAN SCOPE INI!
+    public function scopeActive($query)
+    {
+        return $query->where('active', true);
+    }
     public function creator(): BelongsTo
     {
         return $this->belongsTo(User::class, 'created_by');
