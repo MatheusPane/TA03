@@ -84,9 +84,29 @@ class DataWarga extends Model
     return $this->hasOne(DasawismaAnggota::class, 'warga_id');
     }
     public function kegiatanWarga()
-{
-    return $this->hasMany(KegiatanWarga::class, 'warga_id');
-}
+    {
+        return $this->hasMany(KegiatanWarga::class, 'warga_id');
+    }
+    // PUS = Pasangan Usia Subur (Laki/Perempuan usia 15-49, sudah menikah)
+    public function isPus(): bool
+    {
+        if (!$this->umur || !$this->status_perkawinan_id) return false;
+
+        $isMarried = in_array($this->status_perkawinan_id, [1, 2]); // Misal: 1=Belum Kawin, 2=Kawin
+        $isFertileAge = $this->umur >= 15 && $this->umur <= 49;
+
+        return $isMarried && $isFertileAge;
+    }
+
+    // WUS = Wanita Usia Subur (Perempuan usia 15-49, belum tentu menikah)
+    public function isWus(): bool
+    {
+        if ($this->jenis_kelamin !== 'P') return false;
+        if (!$this->umur) return false;
+
+        return $this->umur >= 15 && $this->umur <= 49;
+    }
+
     // =========================
     // 🔹 RELASI USER AUDIT
     // =========================

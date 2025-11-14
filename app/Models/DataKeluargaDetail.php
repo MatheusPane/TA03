@@ -16,6 +16,8 @@ class DataKeluargaDetail extends Model
         'jumlah_anggota',
         'laki_laki',
         'perempuan',
+        'jumlah_kk', // TAMBAHAN
+        'balita', 'pus', 'wus', 'buta', 'ibu_hamil', 'ibu_menyusui', 'lansia', // TAMBAHAN
         'makanan_pokok',
         'makanan_pokok_lain_id',
         'punya_jamban',
@@ -30,6 +32,7 @@ class DataKeluargaDetail extends Model
         'kesehatan_lingkungan',
         'created_by',
         'updated_by',
+        'is_manual',
     ];
 
     protected $casts = [

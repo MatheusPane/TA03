@@ -38,12 +38,12 @@
 
                     {{-- 2. MASTER DATA --}}
                     <li class="nav-header">Master Data</li>
-                    <li class="nav-item">
+                    <li class="nav-item has-treeview {{ request()->is('ref_*') ? 'menu-open' : '' }}">
                         <a href="#" class="nav-link">
                             <i class="nav-icon bi bi-database-fill"></i>
                             <p>
-                                Referensi 
-                                <i class="nav-arrow bi bi-chevron-right"></i>
+                                Referensi
+                                <i class="right bi bi-chevron-down"></i>
                             </p>
                         </a>
                         <ul class="nav nav-treeview">
@@ -240,7 +240,6 @@
         </nav>
     </div>
 </aside>
-
 {{-- OverlayScrollbars --}}
 <script>
     const SELECTOR_SIDEBAR_WRAPPER = '.sidebar-wrapper';

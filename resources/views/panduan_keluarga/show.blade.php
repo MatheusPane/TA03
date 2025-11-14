@@ -43,7 +43,7 @@
                             <div class="col-sm-5"><strong>Dasawisma</strong></div>
                             <div class="col-sm-7">: {{ $keluarga->dasawisma?->nama ?? '-' }}</div>
 
-                            <div class="col-sm-5"><strong>KRT</strong></div>
+                            <div class="col-sm-5"><strong>Kepala Rumah Tangga</strong></div>
                             <div class="col-sm-7">
                                 : <span class="fw-bold text-primary">
                                     {{ $kepala?->nama ?? 'Belum ditentukan' }}

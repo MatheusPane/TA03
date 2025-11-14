@@ -21,13 +21,21 @@ class DataKeluargaDetailController extends Controller
         // BUAT DETAIL DENGAN DEFAULT VALUE
         $detail = $keluarga->detail ?? $keluarga->detail()->create([
             'makanan_pokok' => 'Beras',
+            'kriteria_rumah' => 'Kurang Sehat',
+            'jumlah_kk' => 1,
+            'balita' => 0,
+            'pus' => 0,
+            'wus' => 0,
+            'buta' => 0,
+            'ibu_hamil' => 0,
+            'ibu_menyusui' => 0,
+            'lansia' => 0,
             'punya_jamban' => false,
             'jumlah_jamban' => 0,
             'sumber_air_id' => null,
             'punya_tempat_sampah' => false,
             'punya_saluran_limbah' => false,
             'stiker_p4k' => false,
-            'kriteria_rumah' => 'Kurang Sehat',
             'up2k' => false,
             'jenis_usaha_id' => null,
             'kesehatan_lingkungan' => false,
@@ -55,12 +63,25 @@ class DataKeluargaDetailController extends Controller
         'up2k' => 'required|in:0,1',
         'jenis_usaha_id' => 'nullable|exists:ref_jenis_usaha,id|required_if:up2k,1',
         'kesehatan_lingkungan' => 'required|in:0,1',
+    
+        // TAMBAHAN VALIDASI
+        'jumlah_kk' => 'required|integer|min:0',
+        'balita' => 'required|integer|min:0',
+        'pus' => 'required|integer|min:0',
+        'wus' => 'required|integer|min:0',
+        'buta' => 'required|integer|min:0',
+        'ibu_hamil' => 'required|integer|min:0',
+        'ibu_menyusui' => 'required|integer|min:0',
+        'lansia' => 'required|integer|min:0',
     ]);
 
     $keluarga = DataKeluarga::findOrFail($keluarga_id);
     $detail = $keluarga->detail ?? $keluarga->detail()->create(['keluarga_id' => $keluarga_id]);
 
-    $detail->update($validated + ['updated_by' => Auth::id()]);
+    $detail->update($validated + [
+        'updated_by' => Auth::id(),
+        'is_manual' => true,
+        ]);
 
     return redirect()->route('data_keluarga.show', $keluarga_id)
         ->with('success', 'Detail keluarga berhasil diperbarui.');

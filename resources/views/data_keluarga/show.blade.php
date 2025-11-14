@@ -63,7 +63,64 @@
                         </div>
                     </div>
                 </div>
-
+                <!-- TAMBAHAN: STATISTIK KATEGORI KHUSUS -->
+                <div class="col-md-12">
+                    <div class="card border-0 shadow-sm" style="border-radius: 12px;">
+                        <div class="card-body">
+                            <h5 class="card-title text-primary">Statistik Kategori Khusus</h5>
+                            <div class="row text-center g-3">
+                                <div class="col-6 col-md-3">
+                                    <div class="p-3 bg-light rounded">
+                                        <h4 class="mb-0 text-info">{{ $keluarga->detail->jumlah_kk ?? 1 }}</h4>
+                                        <small>Jumlah KK</small>
+                                    </div>
+                                </div>
+                                <div class="col-6 col-md-3">
+                                    <div class="p-3 bg-light rounded">
+                                        <h4 class="mb-0 text-success">{{ $keluarga->detail->balita ?? 0 }}</h4>
+                                        <small>Balita</small>
+                                    </div>
+                                </div>
+                                <div class="col-6 col-md-3">
+                                    <div class="p-3 bg-light rounded">
+                                        <h4 class="mb-0 text-warning">{{ $keluarga->detail->pus ?? 0 }}</h4>
+                                        <small>PUS</small>
+                                    </div>
+                                </div>
+                                <div class="col-6 col-md-3">
+                                    <div class="p-3 bg-light rounded">
+                                        <h4 class="mb-0 text-purple">{{ $keluarga->detail->wus ?? 0 }}</h4>
+                                        <small>WUS</small>
+                                    </div>
+                                </div>
+                                <div class="col-6 col-md-3">
+                                    <div class="p-3 bg-light rounded">
+                                        <h4 class="mb-0 text-danger">{{ $keluarga->detail->buta ?? 0 }}</h4>
+                                        <small>Buta</small>
+                                    </div>
+                                </div>
+                                <div class="col-6 col-md-3">
+                                    <div class="p-3 bg-light rounded">
+                                        <h4 class="mb-0 text-pink">{{ $keluarga->detail->ibu_hamil ?? 0 }}</h4>
+                                        <small>Ibu Hamil</small>
+                                    </div>
+                                </div>
+                                <div class="col-6 col-md-3">
+                                    <div class="p-3 bg-light rounded">
+                                        <h4 class="mb-0 text-teal">{{ $keluarga->detail->ibu_menyusui ?? 0 }}</h4>
+                                        <small>Ibu Menyusui</small>
+                                    </div>
+                                </div>
+                                <div class="col-6 col-md-3">
+                                    <div class="p-3 bg-light rounded">
+                                        <h4 class="mb-0 text-secondary">{{ $keluarga->detail->lansia ?? 0 }}</h4>
+                                        <small>Lansia</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 <!-- Daftar Anggota -->
                 <div class="col-md-12">
                     <div class="card border-0 shadow-sm" style="border-radius: 12px;">

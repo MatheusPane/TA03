@@ -136,6 +136,10 @@
             margin-bottom: 0.25rem;
         }
 
+        .nav-item {
+            margin: 0;
+        }
+
         .nav-link {
             color: var(--text-secondary) !important;
             padding: 0.65rem 1.5rem;
@@ -166,6 +170,7 @@
         }
 
         .nav-icon {
+            min-width: 20px;
             width: 20px;
             margin-right: 0.875rem;
             font-size: 1.125rem;
@@ -179,8 +184,19 @@
             color: var(--primary);
         }
 
+        .nav-link.active .nav-icon {
+            color: white;
+        }
+
         .nav-link.active:hover .nav-icon {
             color: white;
+        }
+
+        .nav-link > p {
+            margin: 0;
+            flex: 1;
+            display: flex;
+            align-items: center;
         }
 
         .nav-arrow {
@@ -190,18 +206,28 @@
             color: var(--text-muted);
         }
 
-        .nav-item.menu-open > .nav-link > .nav-arrow {
+        .nav-item.menu-open > .nav-link > p > .nav-arrow {
             transform: rotate(90deg);
         }
 
         .nav-treeview {
             padding: 0.25rem 0;
+            display: none;
+        }
+
+        .nav-item.menu-open > .nav-treeview {
+            display: block;
         }
 
         .nav-treeview .nav-link {
             padding-left: 3.75rem;
             font-size: 0.875rem;
             font-weight: 500;
+        }
+
+        .nav-treeview .nav-icon {
+            font-size: 0.9375rem;
+            margin-right: 0.75rem;
         }
 
         /* ========== HEADER ========== */
@@ -436,6 +462,13 @@
         a, button, .nav-link {
             transition: all 0.15s ease;
         }
+        .nav-item.menu-open > .nav-link .right {
+            transform: rotate(90deg);
+        }
+
+        .right {
+            transition: transform 0.2s ease;
+        }
     </style>
 
     @stack('styles')
@@ -550,19 +583,18 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"></script>
 <script src="{{ asset('js/adminlte.js') }}"></script>
 
-<!-- Theme Toggle Script -->
+<!-- Custom Scripts -->
 <script>
     document.addEventListener('DOMContentLoaded', function () {
+        // ========== THEME TOGGLE ==========
         const toggle = document.getElementById('themeToggle');
         const html = document.documentElement;
         const icon = toggle.querySelector('i');
 
-        // Load saved theme preference
         const savedTheme = localStorage.getItem('theme') || 'light';
         html.setAttribute('data-bs-theme', savedTheme);
         updateIcon(savedTheme);
 
-        // Toggle theme on click
         toggle.addEventListener('click', function () {
             const currentTheme = html.getAttribute('data-bs-theme');
             const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
@@ -573,11 +605,31 @@
         });
 
         function updateIcon(theme) {
-            if (theme === 'dark') {
-                icon.className = 'bi bi-sun-fill';
-            } else {
-                icon.className = 'bi bi-moon-fill';
+            icon.className = theme === 'dark' ? 'bi bi-sun-fill' : 'bi bi-moon-fill';
+        }
+
+        // Auto-open active menu
+        const activeLinks = document.querySelectorAll('.nav-link.active');
+        activeLinks.forEach(function(activeLink) {
+            const parentTreeview = activeLink.closest('.nav-treeview');
+            if (parentTreeview) {
+                const parentItem = parentTreeview.closest('.nav-item');
+                if (parentItem) {
+                    parentItem.classList.add('menu-open');
+                }
             }
+        });
+
+        // ========== OVERLAY SCROLLBAR ==========
+        const sidebarWrapper = document.querySelector('.sidebar-wrapper');
+        if (sidebarWrapper && typeof OverlayScrollbarsGlobal !== 'undefined' && OverlayScrollbarsGlobal.OverlayScrollbars) {
+            OverlayScrollbarsGlobal.OverlayScrollbars(sidebarWrapper, {
+                scrollbars: {
+                    theme: 'os-theme-light',
+                    autoHide: 'leave',
+                    clickScroll: true,
+                },
+            });
         }
     });
 </script>

@@ -49,6 +49,10 @@ class DataKeluargaController extends Controller
 
         // Buat detail kosong otomatis
         $keluarga->detail()->create([
+            'makanan_pokok' => 'Beras',
+            'kriteria_rumah' => 'Kurang Sehat',
+            'jumlah_kk' => 1,
+            'is_manual' => false, // otomatis
             'created_by' => Auth::id(),
             'updated_by' => Auth::id(),
         ]);
@@ -58,25 +62,24 @@ class DataKeluargaController extends Controller
     }
 
     public function show($id)
-    {
-        $keluarga = DataKeluarga::with([
-            'dusun', 'dasawisma',
-            'detail.makananPokokLain', 'detail.sumberAir', 'detail.jenisUsaha',
-            'anggotaKeluarga.warga.statusPerkawinan',
-            'anggotaKeluarga.warga.pendidikan',
-            'anggotaKeluarga.warga.pekerjaan',
-            'anggotaKeluarga.statusDalamKeluarga',
-            'createdBy', 'updatedBy'
-        ])->findOrFail($id);
-    
-        // JANGAN BUAT DETAIL KOSONG DI SINI
-        // Hanya update statistik jika detail sudah ada
-        if ($keluarga->detail) {
-            $this->updateStatistik($keluarga);
-        }
-    
-        return view('data_keluarga.show', compact('keluarga'));
+{
+    $keluarga = DataKeluarga::with([
+        'dusun', 'dasawisma',
+        'detail.makananPokokLain', 'detail.sumberAir', 'detail.jenisUsaha',
+        'anggotaKeluarga.warga.statusPerkawinan',
+        'anggotaKeluarga.warga.pendidikan',
+        'anggotaKeluarga.warga.pekerjaan',
+        'anggotaKeluarga.statusDalamKeluarga',
+        'createdBy', 'updatedBy'
+    ])->findOrFail($id);
+
+    // Hanya update statistik jika detail BELUM diisi manual
+    if ($keluarga->detail && !$keluarga->detail->is_manual) {
+        $this->updateStatistik($keluarga);
     }
+
+    return view('data_keluarga.show', compact('keluarga'));
+}
     public function edit($id)
     {
         $this->authorizeRole(['Admin', 'Kader']);
@@ -121,19 +124,50 @@ class DataKeluargaController extends Controller
     }
 
     private function updateStatistik($keluarga)
-    {
-        $anggota = $keluarga->anggotaKeluarga()->with('warga')->get();
-        $laki = $anggota->where('warga.jenis_kelamin', 'L')->count();
-        $perempuan = $anggota->count() - $laki;
-
-        $detail = $keluarga->detail ?? $keluarga->detail()->create([]);
-        $detail->update([
-            'jumlah_anggota' => $anggota->count(),
-            'laki_laki' => $laki,
-            'perempuan' => $perempuan,
-            'updated_by' => Auth::id(),
-        ]);
+{
+    // HANYA UPDATE JIKA BELUM PERNAH DIISI MANUAL
+    if ($keluarga->detail && $keluarga->detail->is_manual) {
+        return; // JANGAN TIMPA!
     }
+
+    $anggota = $keluarga->anggotaKeluarga()->with('warga')->get();
+
+    $laki = $anggota->where('warga.jenis_kelamin', 'L')->count();
+    $perempuan = $anggota->count() - $laki;
+
+    $balita = $anggota->filter(fn($a) => $a->warga && $a->warga->umur <= 5)->count();
+    $pus = $anggota->filter(fn($a) => $a->warga && $a->warga->isPus())->count();
+    $wus = $anggota->filter(fn($a) => $a->warga && $a->warga->isWus())->count();
+    $buta = $anggota->filter(fn($a) => $a->warga && $a->warga->cacat && str_contains($a->warga->cacat, 'Buta'))->count();
+    $ibuHamil = $anggota->filter(fn($a) => $a->warga && $a->warga->status_kehamilan === 'Hamil')->count();
+    $ibuMenyusui = $anggota->filter(fn($a) => $a->warga && $a->warga->status_kehamilan === 'Menyusui')->count();
+    $lansia = $anggota->filter(fn($a) => $a->warga && $a->warga->umur >= 60)->count();
+
+    $detail = $keluarga->detail ?? $keluarga->detail()->create([
+        'makanan_pokok' => 'Beras',
+        'kriteria_rumah' => 'Kurang Sehat',
+        'jumlah_kk' => 1,
+        'is_manual' => false,
+        'created_by' => Auth::id(),
+        'updated_by' => Auth::id(),
+    ]);
+
+    $detail->update([
+        'jumlah_anggota' => $anggota->count(),
+        'laki_laki' => $laki,
+        'perempuan' => $perempuan,
+        'jumlah_kk' => 1,
+        'balita' => $balita,
+        'pus' => $pus,
+        'wus' => $wus,
+        'buta' => $buta,
+        'ibu_hamil' => $ibuHamil,
+        'ibu_menyusui' => $ibuMenyusui,
+        'lansia' => $lansia,
+        'updated_by' => Auth::id(),
+        'is_manual' => false, // tetap otomatis
+    ]);
+}
 
     private function authorizeRole(array $roles)
     {
