@@ -6,21 +6,24 @@
 <div class="main-content p-4">
     <div class="content-card" style="border-radius: 18px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.12);">
         
-        <!-- HEADER -->
-        <div class="card-header-custom d-flex justify-content-between align-items-center p-4" style="background: linear-gradient(135deg, #1e3a8a, #3b82f6); color: white;">
-            <div>
-                <h4 class="mb-1 fw-bold">Catatan Keluarga PKK</h4>
-                <small class="opacity-75">Data Resmi Keluarga - Tahun {{ now()->year }}</small>
-            </div>
-            <div>
-                <a href="{{ route('panduan_keluarga.index') }}" class="btn btn-light btn-sm me-2">
-                    <i class="bi bi-arrow-left"></i> Kembali
-                </a>
-                <button onclick="window.print()" class="btn btn-warning btn-sm">
-                    <i class="bi bi-printer"></i> Cetak PDF
-                </button>
-            </div>
-        </div>
+        <div class="card-header-custom d-flex justify-content-between align-items-center p-4" 
+        style="background: linear-gradient(135deg, #1e3a8a, #3b82f6); color: white;">
+       <div>
+           <h4 class="mb-1 fw-bold">Catatan Keluarga PKK</h4>
+           <small class="opacity-75">Data Resmi Keluarga - Tahun {{ now()->year }}</small>
+       </div>
+       <div>
+           <a href="{{ route('panduan_keluarga.index') }}" class[enter] class="btn btn-light btn-sm me-2">
+               <i class="bi bi-arrow-left"></i> Kembali
+           </a>
+           
+           <a href="{{ route('panduan_keluarga.print_show', $keluarga) }}" 
+              target="_blank" 
+              class="btn btn-warning btn-sm">
+               <i class="bi bi-file-earmark-pdf"></i> Cetak Resmi
+           </a>
+       </div>
+   </div>
 
         <div class="p-4">
             @php 
@@ -107,6 +110,7 @@
                             <th width="90">Agama</th>
                             <th width="100">Pendidikan</th>
                             <th width="100">Pekerjaan</th>
+                            <th width="100">Kebutuhan Khusus</th>
                             <th width="180">Kegiatan PKK</th>
                         </tr>
                     </thead>
@@ -140,6 +144,7 @@
                                 <td><small>{{ $w?->agama?->nama ?? '-' }}</small></td>
                                 <td><small>{{ $w?->pendidikan?->nama ?? '-' }}</small></td>
                                 <td><small>{{ $w?->pekerjaan?->nama ?? '-' }}</small></td>
+                                <td><small>{{ $w?->kebutuhanKhusus->nama?? '-'}}</small></td>
                                 <td>
                                     @if(!empty($kegiatanList))
                                         <div class="d-flex flex-wrap gap-1" style="max-height: 60px; overflow-y: auto;">
@@ -171,28 +176,4 @@
         </div>
     </div>
 </div>
-
-<!-- PRINT STYLE -->
-<style>
-@media print {
-    body { font-size: 12px; }
-    .no-print { display: none !important; }
-    .table { font-size: 11px; }
-    .content-card { box-shadow: none; border: 1px solid #ddd; }
-    .card-header-custom { background: #1e3a8a !important; -webkit-print-color-adjust: exact; }
-}
-</style>
-
-<script>
-document.addEventListener('DOMContentLoaded', function () {
-    // Tooltip
-    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
-    tooltipTriggerList.map(function (el) { return new bootstrap.Tooltip(el); });
-
-    // Print button
-    window.print = function() {
-        window.print();
-    };
-});
-</script>
 @endsection

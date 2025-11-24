@@ -216,7 +216,21 @@
                     </select>
                     @error('memiliki_tabungan') <small class="text-danger" style="font-size: 12px;">{{ $message }}</small> @enderror
                 </div>
-
+                <div class="mb-3">
+                    <label for="kebutuhan_khusus_id" class="form-label">Kebutuhan Khusus</label>
+                    <select name="kebutuhan_khusus_id" id="kebutuhan_khusus_id" class="form-select">
+                        <option value="">-- Tidak Ada / Normal --</option>
+                        @foreach ($kebutuhanKhusus as $item)
+                            <option value="{{ $item->id }}"
+                                {{ old('kebutuhan_khusus_id', $warga->kebutuhan_khusus_id ?? '') == $item->id ? 'selected' : '' }}>
+                                {{ $item->nama }}
+                            </option>
+                        @endforeach
+                    </select>
+                    @error('kebutuhan_khusus_id')
+                        <div class="text-danger small mt-1">{{ $message }}</div>
+                    @enderror
+                </div>
                 <!-- Status Aktif -->
                 <div class="col-md-3">
                     <label class="form-label" style="font-weight: 600; color: var(--text-dark);">Status Aktif</label>

@@ -25,7 +25,7 @@ public function index(Request $request)
             $q->with([
                 'warga' => function ($w) {
                     $w->with([
-                        'statusPerkawinan', 'agama', 'pendidikan', 'pekerjaan',
+                        'statusPerkawinan', 'agama', 'pendidikan', 'pekerjaan','kebutuhanKhusus',
                         'kegiatanWarga' => fn($kq) => $kq->with('refKegiatan')->where('ikut', true)
                     ]);
                 },
@@ -57,7 +57,7 @@ public function show($id)
             $q->with([
                 'warga' => function ($w) {
                     $w->with([
-                        'statusPerkawinan', 'agama', 'pendidikan', 'pekerjaan',
+                        'statusPerkawinan', 'agama', 'pendidikan', 'pekerjaan','kebutuhanKhusus',
                         'kegiatanWarga' => fn($kq) => $kq->with('refKegiatan')->where('ikut', true)
                     ]);
                 },
@@ -70,5 +70,13 @@ public function show($id)
     // dd($keluarga->anggotaKeluarga->pluck('statusDalamKeluarga.nama'));
 
     return view('panduan_keluarga.show', compact('keluarga'));
+}
+public function printShow(DataKeluarga $keluarga)
+{
+    $keluarga->load(['anggotaKeluarga.warga.statusPerkawinan', 'anggotaKeluarga.warga.agama', 
+                     'anggotaKeluarga.warga.pendidikan', 'anggotaKeluarga.warga.pekerjaan','anggotaKeluarga.warga.kebutuhanKhusus',
+                     'anggotaKeluarga.warga.kegiatanWarga.refKegiatan',
+                     'anggotaKeluarga.statusDalamKeluarga', 'detail.sumberAir', 'dasawisma']);
+    return view('panduan_keluarga.print-show', compact('keluarga'));
 }
 }

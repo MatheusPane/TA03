@@ -31,11 +31,13 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\RefKegiatanWargaController;
 use App\Http\Controllers\KegiatanWargaController;
 use App\Http\Controllers\PanduanKeluargaController;
+use App\Http\Controllers\RefKebutuhanKhususController;
 use App\Http\Controllers\SuratKeputusanController;
 use App\Http\Controllers\SuratBiasaController;
 use App\Http\Controllers\SuratEdaranController;
 use App\Http\Controllers\SuratKuasaController;
 use App\Http\Controllers\SuratTugasController;
+
 // PUBLIC
 Route::get('/', function () {
     return view('welcome');
@@ -84,10 +86,16 @@ Route::middleware('auth')->group(function () {
         Route::resource('ref_sumber_air', RefSumberAirController::class);
         Route::resource('ref_jenis_usaha', RefJenisUsahaController::class);
         Route::resource('ref_kegiatan_warga', RefKegiatanWargaController::class);
+        Route::resource('ref_kebutuhan_khusus', RefKebutuhanKhususController::class);
     });
 
     // === DATA UTAMA (Semua User Login) ===
     Route::resource('data_warga', DataWargaController::class);
+    Route::get('panduan_keluarga/{keluarga}/print', [PanduanKeluargaController::class, 'printShow'])->name('panduan_keluarga.print_show'); 
+    Route::get('data-warga/{warga}/print', [DataWargaController::class, 'print'])
+    ->name('data_warga.print');
+    Route::get('data-warga/{warga}/cetak', [DataWargaController::class, 'cetak'])
+     ->name('data_warga.cetak');
     Route::resource('data_keluarga', DataKeluargaController::class);
     Route::resource('ref_status_dalam_keluarga', RefStatusDalamKeluargaController::class);
     Route::resource('surat-biasa', SuratBiasaController::class);
@@ -143,7 +151,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/panduan-keluarga', [PanduanKeluargaController::class, 'index'])
         ->name('panduan_keluarga.index');
     Route::get('/panduan-keluarga/{id}', [PanduanKeluargaController::class, 'show'])
-        ->name('panduan_keluarga.show');    
+        ->name('panduan_keluarga.show');   
+    Route::get('panduan_keluarga/{keluarga}/print', [PanduanKeluargaController::class, 'printShow'])->name('panduan_keluarga.print_show'); 
     // === KEGIATAN WARGA (Admin & Kader) ===
      Route::prefix('warga/{warga_id}/kegiatan')->name('kegiatan_warga.')->group(function () {
             Route::get('/', [KegiatanWargaController::class, 'index'])->name('index');
@@ -153,6 +162,7 @@ Route::middleware('auth')->group(function () {
             Route::put('/{id}', [KegiatanWargaController::class, 'update'])->name('update');
             Route::delete('/{id}', [KegiatanWargaController::class, 'destroy'])->name('destroy');
         });
+
         // routes/web.php
 
 Route::middleware(['auth'])

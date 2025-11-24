@@ -84,76 +84,46 @@
 <script src="https://cdn.datatables.net/responsive/3.0.2/js/dataTables.responsive.min.js"></script>
 <script src="https://cdn.datatables.net/responsive/3.0.2/js/responsive.bootstrap5.min.js"></script>
 
-<script>
-$(document).ready(function() {
-    // Kirim hak akses & route ke JS
-    window.Laravel = {
-        canEdit: @json(Auth::user()->hasRole('Admin') || Auth::user()->hasRole('Kader')),
-        canDelete: @json(Auth::user()->hasRole('Admin')),
-        routes: {
-            edit: '{{ route('dasawisma_anggota.edit', ':id') }}',
-            destroy: '{{ route('dasawisma_anggota.destroy', ':id') }}'
-        }
-    };
-
-    const table = $('#anggotaDasawismaTable').DataTable({
-        language: {
-            url: 'https://cdn.datatables.net/plug-ins/1.13.7/i18n/id.json'
-        },
-        pageLength: 10,
-        lengthMenu: [10, 25, 50, 100],
-        responsive: true,
-        dom: '<"row"<"col-sm-12 col-md-6"B><"col-sm-12 col-md-6"f>>t<"row"<"col-sm-12 col-md-5"i><"col-sm-12 col-md-7"p>>',
-        buttons: [
-            { extend: 'copy', text: 'Copy', className: 'btn btn-secondary btn-sm' },
-            { extend: 'excel', text: 'Excel', className: 'btn btn-success btn-sm', title: 'Anggota Dasawisma - {{ $dasawisma->nama }}' },
-            { extend: 'pdf', text: 'PDF', className: 'btn btn-danger btn-sm', title: 'Anggota Dasawisma - {{ $dasawisma->nama }}' },
-            { extend: 'print', text: 'Print', className: 'btn btn-info btn-sm', title: 'Anggota Dasawisma' }
-        ],
-        columnDefs: [
-            { targets: 0, width: '50px', className: 'text-center' },
-            { targets: 2, width: '150px', className: 'text-center' },
-            { targets: 3, orderable: false, width: '100px', className: 'text-center' }
-        ],
-        order: [[1, 'asc']], // Urutkan berdasarkan nama
+<s<script>
+    $(document).ready(function() {
+        const baseUrl = '{{ url('dasawisma/' . $dasawisma->id . '/anggota') }}';
+    
+        window.Laravel = {
+            canEdit: @json(Auth::user()->hasRole('Admin') || Auth::user()->hasRole('Kader')),
+            canDelete: @json(Auth::user()->hasRole('Admin')),
+            baseUrl: baseUrl + '/'  // hasil: /dasawisma/2/anggota/
+        };
+    
+        // ... DataTable init
+    
         drawCallback: function() {
             $('#anggotaDasawismaTable tbody tr').each(function() {
                 const id = $(this).data('id');
                 if (!id) return;
-
+    
                 let buttons = `<div class="btn-group" role="group">`;
-
-                // Edit Peran (Admin/Kader)
+    
                 if (window.Laravel.canEdit) {
-                    buttons += `
-                        <a href="${window.Laravel.routes.edit.replace(':id', id)}" class="btn btn-sm btn-warning" title="Edit Peran">
-                            <i class="bi bi-pencil"></i>
-                        </a>
-                    `;
+                    buttons += `<a href="${window.Laravel.baseUrl}${id}/edit" class="btn btn-sm btn-warning">
+                        <i class="bi bi-pencil"></i>
+                    </a>`;
                 }
-
-                // Hapus (Admin only)
+    
                 if (window.Laravel.canDelete) {
                     buttons += `
-                        <form action="${window.Laravel.routes.destroy.replace(':id', id)}" method="POST" class="d-inline" onsubmit="return confirm('Hapus anggota dari dasawisma?')">
+                        <form action="${window.Laravel.baseUrl}${id}" method="POST" class="d-inline"
+                              onsubmit="return confirm('Yakin hapus anggota ini?')">
                             @csrf @method('DELETE')
-                            <button type="submit" class="btn btn-sm btn-danger" title="Hapus">
+                            <button type="submit" class="btn btn-sm btn-danger">
                                 <i class="bi bi-trash"></i>
                             </button>
-                        </form>
-                    `;
+                        </form>`;
                 }
-
+    
                 buttons += `</div>`;
                 $(this).find('.aksi-column').html(buttons);
             });
-
-            $('.dataTables_paginate .page-link').addClass('border-0');
         }
     });
-
-    // Render pertama
-    table.draw();
-});
-</script>
+    </script>
 @endpush

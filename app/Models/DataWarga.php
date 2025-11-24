@@ -23,6 +23,7 @@ class DataWarga extends Model
         'agama_id',
         'pendidikan_id',
         'pekerjaan_id',
+        'kebutuhan_khusus_id',          // <<< BARU
         'ikut_paud',
         'ikut_kelompok_belajar',
         'jenis_kelompok_belajar_id',
@@ -37,7 +38,7 @@ class DataWarga extends Model
     ];
 
     // =========================
-    // 🔹 RELASI KE REFERENSI
+    // RELASI KE REFERENSI
     // =========================
 
     public function jabatan()
@@ -65,6 +66,12 @@ class DataWarga extends Model
         return $this->belongsTo(RefPekerjaan::class, 'pekerjaan_id');
     }
 
+    // <<< BARU: Relasi Kebutuhan Khusus >>>
+    public function kebutuhanKhusus()
+    {
+        return $this->belongsTo(RefKebutuhanKhusus::class, 'kebutuhan_khusus_id');
+    }
+
     public function jenisKoperasi()
     {
         return $this->belongsTo(RefJenisKoperasi::class, 'jenis_koperasi_id');
@@ -79,38 +86,34 @@ class DataWarga extends Model
     {
         return $this->belongsTo(RefJenisKelompokBelajar::class, 'jenis_kelompok_belajar_id');
     }
+
+    // Relasi lain tetap
     public function dasawismaAnggota()
     {
-    return $this->hasOne(DasawismaAnggota::class, 'warga_id');
+        return $this->hasOne(DasawismaAnggota::class, 'warga_id');
     }
+
     public function kegiatanWarga()
     {
         return $this->hasMany(KegiatanWarga::class, 'warga_id');
     }
-    // PUS = Pasangan Usia Subur (Laki/Perempuan usia 15-49, sudah menikah)
+
+    // Helper PUS & WUS tetap sama
     public function isPus(): bool
     {
         if (!$this->umur || !$this->status_perkawinan_id) return false;
-
-        $isMarried = in_array($this->status_perkawinan_id, [1, 2]); // Misal: 1=Belum Kawin, 2=Kawin
+        $isMarried = in_array($this->statusPerkawinan?->id, [2]); // asumsi 2 = Kawin
         $isFertileAge = $this->umur >= 15 && $this->umur <= 49;
-
         return $isMarried && $isFertileAge;
     }
 
-    // WUS = Wanita Usia Subur (Perempuan usia 15-49, belum tentu menikah)
     public function isWus(): bool
     {
-        if ($this->jenis_kelamin !== 'P') return false;
-        if (!$this->umur) return false;
-
+        if ($this->jenis_kelamin !== 'P' || !$this->umur) return false;
         return $this->umur >= 15 && $this->umur <= 49;
     }
 
-    // =========================
-    // 🔹 RELASI USER AUDIT
-    // =========================
-
+    // Relasi audit
     public function createdBy()
     {
         return $this->belongsTo(User::class, 'created_by');
@@ -120,9 +123,15 @@ class DataWarga extends Model
     {
         return $this->belongsTo(User::class, 'updated_by');
     }
+
     public function scopeActive($query)
     {
         return $query->where('active', true);
     }
-}
 
+    // Optional: accessor biar di view tinggal panggil $warga->kebutuhan_khusus_nama
+    public function getKebutuhanKhususNamaAttribute()
+    {
+        return $this->kebutuhanKhusus?->nama ?? '-';
+    }
+}

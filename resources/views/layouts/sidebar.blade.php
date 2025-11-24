@@ -125,6 +125,12 @@
                                     <p>Kegiatan Warga</p>
                                 </a>
                             </li>
+                            <li class="nav-item">
+                                <a href="{{ url('/ref_kebutuhan_khusus') }}" class="nav-link {{ request()->is('ref_kegiatan_warga*') ? 'active' : '' }}">
+                                    <i class="nav-icon bi bi-calendar-event"></i>
+                                    <p>Kebutuhan Khusus</p>
+                                </a>
+                            </li>
                         </ul>
                     </li>
                 @endif
