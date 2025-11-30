@@ -126,13 +126,5 @@
         @endforeach
     </tbody>
 </table>
-
-<div style="margin-top:60px; float:right; text-align:center;">
-    <p>______________, {{ now()->format('d F Y') }}</p>
-    <p>Ketua Kelompok Dasawisma</p>
-    <br><br><br>
-    <p><strong>(_____________________________)</strong></p>
-</div>
-
 </body>
 </html>

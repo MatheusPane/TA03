@@ -297,6 +297,12 @@
 <div class="container-fluid">
     <!-- Page Header -->
     <div class="page-header">
+        <div class="d-flex justify-content-end mb-3">
+            <a href="{{ route('data_keluarga.print_dasawisma', $keluarga->id) }}" 
+               class="btn btn-success" target="_blank">
+                <i class="bi bi-printer"></i> Print Form Dasa Wisma
+            </a>
+        </div>
         <h4>
             <i class="bi bi-house-heart-fill"></i>
             Detail Keluarga: {{ $keluarga->no_kk }}

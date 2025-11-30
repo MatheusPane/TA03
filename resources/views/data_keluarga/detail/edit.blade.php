@@ -158,61 +158,98 @@
                     </select>
                 </div>
                 <!-- TAMBAHAN: STATISTIK KATEGORI KHUSUS -->
-                <div class="card border-0 shadow-sm mb-4" style="border-radius: 12px;">
-                    <div class="card-body">
-                        <h5 class="card-title text-success mb-3">Statistik Kategori Khusus</h5>
-                        <div class="row g-3">
-                            <div class="col-md-3">
-                                <label class="form-label">Jumlah KK <span class="text-danger">*</span></label>
-                                <input type="number" name="jumlah_kk" class="form-control @error('jumlah_kk') is-invalid @enderror" 
-                                    value="{{ old('jumlah_kk', $detail->jumlah_kk ?? 1) }}" min="0" required>
-                                @error('jumlah_kk') <div class="invalid-feedback">{{ $message }}</div> @enderror
-                            </div>
-                            <div class="col-md-3">
-                                <label class="form-label">Balita <span class="text-danger">*</span></label>
-                                <input type="number" name="balita" class="form-control @error('balita') is-invalid @enderror" 
-                                    value="{{ old('balita', $detail->balita ?? 0) }}" min="0" required>
-                                @error('balita') <div class="invalid-feedback">{{ $message }}</div> @enderror
-                            </div>
-                            <div class="col-md-3">
-                                <label class="form-label">PUS <span class="text-danger">*</span></label>
-                                <input type="number" name="pus" class="form-control @error('pus') is-invalid @enderror" 
-                                    value="{{ old('pus', $detail->pus ?? 0) }}" min="0" required>
-                                @error('pus') <div class="invalid-feedback">{{ $message }}</div> @enderror
-                            </div>
-                            <div class="col-md-3">
-                                <label class="form-label">WUS <span class="text-danger">*</span></label>
-                                <input type="number" name="wus" class="form-control @error('wus') is-invalid @enderror" 
-                                    value="{{ old('wus', $detail->wus ?? 0) }}" min="0" required>
-                                @error('wus') <div class="invalid-feedback">{{ $message }}</div> @enderror
-                            </div>
-                            <div class="col-md-3">
-                                <label class="form-label">Buta <span class="text-danger">*</span></label>
-                                <input type="number" name="buta" class="form-control @error('buta') is-invalid @enderror" 
-                                    value="{{ old('buta', $detail->buta ?? 0) }}" min="0" required>
-                                @error('buta') <div class="invalid-feedback">{{ $message }}</div> @enderror
-                            </div>
-                            <div class="col-md-3">
-                                <label class="form-label">Ibu Hamil <span class="text-danger">*</span></label>
-                                <input type="number" name="ibu_hamil" class="form-control @error('ibu_hamil') is-invalid @enderror" 
-                                    value="{{ old('ibu_hamil', $detail->ibu_hamil ?? 0) }}" min="0" required>
-                                @error('ibu_hamil') <div class="invalid-feedback">{{ $message }}</div> @enderror
-                            </div>
-                            <div class="col-md-3">
-                                <label class="form-label">Ibu Menyusui <span class="text-danger">*</span></label>
-                                <input type="number" name="ibu_menyusui" class="form-control @error('ibu_menyusui') is-invalid @enderror" 
-                                    value="{{ old('ibu_menyusui', $detail->ibu_menyusui ?? 0) }}" min="0" required>
-                                @error('ibu_menyusui') <div class="invalid-feedback">{{ $message }}</div> @enderror
-                            </div>
-                            <div class="col-md-3">
-                                <label class="form-label">Lansia <span class="text-danger">*</span></label>
-                                <input type="number" name="lansia" class="form-control @error('lansia') is-invalid @enderror" 
-                                    value="{{ old('lansia', $detail->lansia ?? 0) }}" min="0" required>
-                                @error('lansia') <div class="invalid-feedback">{{ $message }}</div> @enderror
-                            </div>
+<div class="card border-0 shadow-sm mb-4" style="border-radius: 12px;">
+    <div class="card-body">
+        <h5 class="card-title text-success mb-4">
+            Statistik Kategori Khusus
+        </h5>
+
+        <div class="row g-4">
+
+            <!-- Jumlah KK -->
+            <div class="col-md-3">
+                <label class="form-label">Jumlah KK <span class="text-danger">*</span></label>
+                <input type="number" name="jumlah_kk" class="form-control @error('jumlah_kk') is-invalid @enderror"
+                       value="{{ old('jumlah_kk', $detail->jumlah_kk ?? 1) }}" min="0" required>
+                @error('jumlah_kk') <div class="invalid-feedback">{{ $message }}</div> @enderror
+            </div>
+
+            <!-- BALITA: DIPISAH LAKI & PEREMPUAN -->
+            <div class="col-md-9">
+                <label class="form-label d-block">Jumlah Balita <span class="text-danger">*</span></label>
+                <div class="row g-3 align-items-end">
+                    <div class="col-5">
+                        <label class="form-label text-primary small">Laki-laki</label>
+                        <input type="number" name="balita_laki" id="balita_laki" class="form-control" min="0"
+                               value="{{ old('balita_laki', 0) }}" required>
+                    </div>
+                    <div class="col-5">
+                        <label class="form-label text-danger small">Perempuan</label>
+                        <input type="number" name="balita_perempuan" id="balita_perempuan" class="form-control" min="0"
+                               value="{{ old('balita_perempuan', 0) }}" required>
+                    </div>
+                    <div class="col-2 text-center">
+                        <div class="bg-primary text-white fw-bold rounded-pill py-2 px-3 shadow-sm">
+                            <span id="totalBalita">0</span>
                         </div>
+                        <small class="text-muted d-block mt-1">Total</small>
                     </div>
                 </div>
+                <!-- Input hidden untuk kirim total ke controller -->
+                <input type="hidden" name="balita" id="balita_total" value="{{ old('balita', $detail->balita ?? 0) }}">
+            </div>
+
+            <!-- PUS -->
+            <div class="col-md-3">
+                <label class="form-label">PUS <span class="text-danger">*</span></label>
+                <input type="number" name="pus" class="form-control @error('pus') is-invalid @enderror"
+                       value="{{ old('pus', $detail->pus ?? 0) }}" min="0" required>
+                @error('pus') <div class="invalid-feedback">{{ $message }}</div> @enderror
+            </div>
+
+            <!-- WUS -->
+            <div class="col-md-3">
+                <label class="form-label">WUS <span class="text-danger">*</span></label>
+                <input type="number" name="wus" class="form-control @error('wus') is-invalid @enderror"
+                       value="{{ old('wus', $detail->wus ?? 0) }}" min="0" required>
+                @error('wus') <div class="invalid-feedback">{{ $message }}</div> @enderror
+            </div>
+
+            <!-- Buta -->
+            <div class="col-md-3">
+                <label class="form-label">Buta <span class="text-danger">*</span></label>
+                <input type="number" name="buta" class="form-control @error('buta') is-invalid @enderror"
+                       value="{{ old('buta', $detail->buta ?? 0) }}" min="0" required>
+                @error('buta') <div class="invalid-feedback">{{ $message }}</div> @enderror
+            </div>
+
+            <!-- Ibu Hamil -->
+            <div class="col-md-3">
+                <label class="form-label">Ibu Hamil <span class="text-danger">*</span></label>
+                <input type="number" name="ibu_hamil" class="form-control @error('ibu_hamil') is-invalid @enderror"
+                       value="{{ old('ibu_hamil', $detail->ibu_hamil ?? 0) }}" min="0" required>
+                @error('ibu_hamil') <div class="invalid-feedback">{{ $message }}</div> @enderror
+            </div>
+
+            <!-- Ibu Menyusui -->
+            <div class="col-md-3">
+                <label class="form-label">Ibu Menyusui <span class="text-danger">*</span></label>
+                <input type="number" name="ibu_menyusui" class="form-control @error('ibu_menyusui') is-invalid @enderror"
+                       value="{{ old('ibu_menyusui', $detail->ibu_menyusui ?? 0) }}" min="0" required>
+                @error('ibu_menyusui') <div class="invalid-feedback">{{ $message }}</div> @enderror
+            </div>
+
+            <!-- Lansia -->
+            <div class="col-md-3">
+                <label class="form-label">Lansia <span class="text-danger">*</span></label>
+                <input type="number" name="lansia" class="form-control @error('lansia') is-invalid @enderror"
+                       value="{{ old('lansia', $detail->lansia ?? 0) }}" min="0" required>
+                @error('lansia') <div class="invalid-feedback">{{ $message }}</div> @enderror
+            </div>
+
+        </div>
+    </div>
+</div>
                 <!-- TOMBOL -->
                 <div class="text-end">
                     <button type="submit" class="btn btn-primary" style="border-radius: 10px;">
@@ -227,8 +264,31 @@
     </div>
 </div>
 
+@push('scripts')
 <script>
 document.addEventListener('DOMContentLoaded', function () {
+    const lakiInput     = document.getElementById('balita_laki');
+    const perempuanInput = document.getElementById('balita_perempuan');
+    const totalDisplay  = document.getElementById('totalBalita');
+    const totalHidden   = document.getElementById('balita_total');
+
+    function hitungBalita() {
+        const laki = parseInt(lakiInput.value) || 0;
+        const perempuan = parseInt(perempuanInput.value) || 0;
+        const total = laki + perempuan;
+
+        totalDisplay.textContent = total;
+        totalHidden.value = total;
+    }
+
+    // Hitung saat input berubah
+    lakiInput.addEventListener('input', hitungBalita);
+    perempuanInput.addEventListener('input', hitungBalita);
+
+    // Hitung pertama kali (jika ada old input)
+    hitungBalita();
+
+    // Toggle field yang lain (makanan pokok, jamban, up2k) — tetap seperti sebelumnya
     const makananSelect = document.querySelector('[name="makanan_pokok"]');
     const nonBerasField = document.getElementById('nonBerasField');
     const punyaJamban = document.querySelector('[name="punya_jamban"]');
@@ -245,8 +305,8 @@ document.addEventListener('DOMContentLoaded', function () {
     makananSelect?.addEventListener('change', toggleFields);
     punyaJamban?.addEventListener('change', toggleFields);
     up2kSelect?.addEventListener('change', toggleFields);
-
-    toggleFields(); // Initial
+    toggleFields();
 });
 </script>
+@endpush
 @endsection

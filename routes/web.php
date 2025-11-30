@@ -97,6 +97,8 @@ Route::middleware('auth')->group(function () {
     Route::get('data-warga/{warga}/cetak', [DataWargaController::class, 'cetak'])
      ->name('data_warga.cetak');
     Route::resource('data_keluarga', DataKeluargaController::class);
+    Route::get('data-keluarga/{keluarga}/print-dasawisma', [DataKeluargaController::class, 'printDasawisma'])
+    ->name('data_keluarga.print_dasawisma');
     Route::resource('ref_status_dalam_keluarga', RefStatusDalamKeluargaController::class);
     Route::resource('surat-biasa', SuratBiasaController::class);
     Route::get('surat-biasa/{suratBiasa}/cetak', [SuratBiasaController::class, 'cetak'])
