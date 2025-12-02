@@ -53,7 +53,7 @@
                                 {{-- Tombol Edit --}}
                                 <button type="button" class="btn btn-warning btn-sm" data-bs-toggle="modal"
                                     data-bs-target="#editModal{{ $item->id }}">
-                                    <i class="bi bi-pencil-square"></i> Edit
+                                    <i class="bi bi-pencil-square"></i> 
                                 </button>
 
                                 {{-- Tombol Hapus --}}
@@ -63,7 +63,7 @@
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit" class="btn btn-danger btn-sm">
-                                        <i class="bi bi-trash"></i> Hapus
+                                        <i class="bi bi-trash"></i> 
                                     </button>
                                 </form>
                             </td>

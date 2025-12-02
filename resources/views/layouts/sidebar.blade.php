@@ -189,6 +189,42 @@
                                     <p>Kegiatan Warga</p>
                                 </a>
                             </li>
+                            <li class="nav-item">
+                                <a href="{{ url('/ref_jenis_kelompok_belajar') }}" class="nav-link {{ request()->is('ref_jenis_kelompok_belajar*') ? 'active' : '' }}">
+                                    <i class="nav-icon bi bi-calendar-event"></i>
+                                    <p>Jenis Kelompok Belajar</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ url('/ref_jabatan') }}" class="nav-link {{ request()->is('ref_jabatan*') ? 'active' : '' }}">
+                                    <i class="nav-icon bi bi-calendar-event"></i>
+                                    <p>Jabatan</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ url('/ref_jenis_akseptor_kb') }}" class="nav-link {{ request()->is('ref_jenis_akseptor_kb*') ? 'active' : '' }}">
+                                    <i class="nav-icon bi bi-calendar-event"></i>
+                                    <p>Jenis Akseptor KB</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ url('/ref_jenis_koperasi') }}" class="nav-link {{ request()->is('ref_jenis_koperasi*') ? 'active' : '' }}">
+                                    <i class="nav-icon bi bi-calendar-event"></i>
+                                    <p>Koperasi</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ url('/ref_jenis_usaha') }}" class="nav-link {{ request()->is('ref_jenis_usaha*') ? 'active' : '' }}">
+                                    <i class="nav-icon bi bi-calendar-event"></i>
+                                    <p>Usaha</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ url('/ref_makanan_pokok') }}" class="nav-link {{ request()->is('ref_makanan_pokok*') ? 'active' : '' }}">
+                                    <i class="nav-icon bi bi-calendar-event"></i>
+                                    <p>Makanan Pokok</p>
+                                </a>
+                            </li>
                             <!-- Tambahkan referensi lain jika perlu -->
                         </ul>
                     </li>

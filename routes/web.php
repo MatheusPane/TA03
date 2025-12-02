@@ -40,8 +40,8 @@ use App\Http\Controllers\SuratTugasController;
 
 // PUBLIC
 Route::get('/', function () {
-    return view('welcome');
-})->name('welcome');
+    return redirect()->route('login');
+});
 
 // DASHBOARD (auth)
 Route::middleware('auth')->group(function () {
@@ -138,14 +138,17 @@ Route::middleware('auth')->group(function () {
     Route::resource('dasawisma', DasawismaController::class);
 
     // === ANGGOTA DASAWISMA ===
-    Route::prefix('dasawisma/{dasawisma_id}/anggota')->name('dasawisma_anggota.')->group(function () {
-        Route::get('/', [DasawismaAnggotaController::class, 'index'])->name('index');
-        Route::get('/create', [DasawismaAnggotaController::class, 'create'])->name('create');
-        Route::post('/', [DasawismaAnggotaController::class, 'store'])->name('store');
-        Route::get('/{id}/edit', [DasawismaAnggotaController::class, 'edit'])->name('edit');
-        Route::patch('/{id}', [DasawismaAnggotaController::class, 'update'])->name('update');
-        Route::delete('/{id}', [DasawismaAnggotaController::class, 'destroy'])->name('destroy');
-    });
+    // routes/web.php
+// routes/web.php
+Route::prefix('dasawisma/{dasawisma_id}/anggota')->name('dasawisma_anggota.')->group(function () {
+    Route::get('/', [DasawismaAnggotaController::class, 'index'])->name('index');
+    Route::get('/create', [DasawismaAnggotaController::class, 'create'])->name('create');
+    Route::post('/', [DasawismaAnggotaController::class, 'store'])->name('store');
+    Route::get('/{id}/edit', [DasawismaAnggotaController::class, 'edit'])->name('edit');
+    Route::patch('/{id}', [DasawismaAnggotaController::class, 'update'])->name('update');
+    Route::put('/{id}', [DasawismaAnggotaController::class, 'update']);
+    Route::delete('/{id}', [DasawismaAnggotaController::class, 'destroy'])->name('destroy');
+});
         // === KEGIATAN WARGA DASHBOARD ===
     Route::get('/kegiatan-warga', [KegiatanWargaController::class, 'dashboard'])
         ->name('kegiatan_warga.dashboard');

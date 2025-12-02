@@ -42,13 +42,13 @@
                                     </td>
                                     <td>
                                         <a href="{{ route('tahun.edit', $tahun->id) }}" class="btn btn-warning btn-sm">
-                                            <i class="bi bi-pencil-square"></i> Edit
+                                            <i class="bi bi-pencil-square"></i> 
                                         </a>
                                         <form action="{{ route('tahun.destroy', $tahun->id) }}" method="POST" class="d-inline">
                                             @csrf
                                             @method('DELETE')
                                             <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Yakin ingin menghapus data ini?')">
-                                                <i class="bi bi-trash"></i> Hapus
+                                                <i class="bi bi-trash"></i> 
                                             </button>
                                         </form>
                                     </td>

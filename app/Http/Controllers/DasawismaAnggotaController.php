@@ -94,19 +94,24 @@ public function update(Request $request, $id)
         ->with('success', 'Peran anggota berhasil diperbarui.');
 }
     // HAPUS ANGGOTA
-    public function destroy($id)
-    {
-        if (!Auth::user()->hasRole('Admin')) {
-            abort(403);
-        }
-
-        $anggota = DasawismaAnggota::findOrFail($id);
-        $dasawisma_id = $anggota->dasawisma_id;
-        $anggota->delete();
-
-        return redirect()
-            ->route('dasawisma_anggota.index', $dasawisma_id)
-            ->with('success', 'Anggota berhasil dihapus.');
+    public function destroy($dasawisma_id, $id) // UBAH JADI 2 PARAMETER!
+{
+    if (!Auth::user()->hasRole('Admin')) {
+        abort(403);
     }
+
+    $anggota = DasawismaAnggota::findOrFail($id);
+    
+    // Pastikan anggota benar-benar milik dasawisma ini (keamanan)
+    if ($anggota->dasawisma_id != $dasawisma_id) {
+        abort(404);
+    }
+
+    $anggota->delete();
+
+    return redirect()
+        ->route('dasawisma_anggota.index', $dasawisma_id)
+        ->with('success', 'Anggota berhasil dihapus.');
+}
     
 }
