@@ -15,14 +15,14 @@ class SuratEdaranController extends Controller
 {
     public function index()
     {
-        $this->authorizeRole(['Admin', 'Kader']);
+        $this->authorizeRole(['Admin', 'Pengurus']);
         $surat = SuratEdaran::with(['creator', 'dusun', 'jabatan'])->active()->latest()->get();
         return view('surat_edaran.index', compact('surat'));
     }
 
     public function create()
     {
-        $this->authorizeRole(['Admin', 'Kader']);
+        $this->authorizeRole(['Admin', 'Pengurus']);
         $nomorOtomatis = $this->generateNomorOtomatis();
         $dusun = Dusun::active()->orderBy('nama')->get();
         $jabatan = RefJabatan::active()->orderBy('nama')->get();
@@ -31,7 +31,7 @@ class SuratEdaranController extends Controller
 
     public function store(Request $request)
     {
-        $this->authorizeRole(['Admin', 'Kader']);
+        $this->authorizeRole(['Admin', 'Pengurus']);
         $request->validate([
             'nomor' => 'required|unique:surat_edarans,nomor',
             'tentang' => 'required|string',
@@ -58,14 +58,14 @@ class SuratEdaranController extends Controller
 
     public function show(SuratEdaran $suratEdaran)
     {
-        $this->authorizeRole(['Admin', 'Kader']);
+        $this->authorizeRole(['Admin', 'Pengurus']);
         $suratEdaran->load(['dusun', 'jabatan']);
         return view('surat_edaran.show', compact('suratEdaran'));
     }
 
     public function edit(SuratEdaran $suratEdaran)
     {
-        $this->authorizeRole(['Admin', 'Kader']);
+        $this->authorizeRole(['Admin', 'Pengurus']);
         $dusun = Dusun::active()->orderBy('nama')->get();
         $jabatan = RefJabatan::active()->orderBy('nama')->get();
         return view('surat_edaran.edit', compact('suratEdaran', 'dusun', 'jabatan'));
@@ -73,7 +73,7 @@ class SuratEdaranController extends Controller
 
     public function update(Request $request, SuratEdaran $suratEdaran)
     {
-        $this->authorizeRole(['Admin', 'Kader']);
+        $this->authorizeRole(['Admin', 'Pengurus']);
         $request->validate([
             'nomor' => 'required|unique:surat_edarans,nomor,' . $suratEdaran->id,
             'tentang' => 'required|string',
@@ -108,7 +108,7 @@ class SuratEdaranController extends Controller
 
     public function cetak(SuratEdaran $suratEdaran)
     {
-        $this->authorizeRole(['Admin', 'Kader']);
+        $this->authorizeRole(['Admin', 'Pengurus']);
         $suratEdaran->load(['dusun', 'jabatan']);
         $pdf = Pdf::loadView('surat_edaran.pdf', compact('suratEdaran'))
                   ->setPaper('a4', 'portrait');

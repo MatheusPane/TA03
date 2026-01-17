@@ -28,7 +28,7 @@ class DataKeluargaAnggotaController extends Controller
 
     public function create($keluarga_id)
 {
-    if (!Auth::user()->hasRole(['Admin', 'Kader'])) {
+    if (! (Auth::user()->hasRole('Admin') || Auth::user()->hasRole('Kader') || Auth::user()->hasRole('Pengurus')) ) {
         abort(403, 'Anda tidak memiliki izin untuk menambahkan anggota keluarga.');
     }
 
@@ -41,7 +41,7 @@ class DataKeluargaAnggotaController extends Controller
 
     public function store(Request $request)
     {
-        if (!Auth::user()->hasRole(['Admin', 'Kader'])) {
+        if (! (Auth::user()->hasRole('Admin') || Auth::user()->hasRole('Kader') || Auth::user()->hasRole('Pengurus')) ) {
             abort(403, 'Anda tidak memiliki izin untuk menambahkan data.');
         }
 
@@ -61,7 +61,7 @@ class DataKeluargaAnggotaController extends Controller
 
     public function edit($id)
     {
-        if (!Auth::user()->hasRole(['Admin', 'Kader'])) {
+        if (! (Auth::user()->hasRole('Admin') || Auth::user()->hasRole('Kader') || Auth::user()->hasRole('Pengurus')) ) {
             abort(403, 'Anda tidak memiliki izin untuk mengedit data keluarga.');
         }
 
@@ -75,7 +75,7 @@ class DataKeluargaAnggotaController extends Controller
 
     public function update(Request $request, $id)
     {
-        if (!Auth::user()->hasRole(['Admin', 'Kader'])) {
+        if (! (Auth::user()->hasRole('Admin') || Auth::user()->hasRole('Kader') || Auth::user()->hasRole('Pengurus')) ) {
             abort(403, 'Anda tidak memiliki izin untuk mengupdate data.');
         }
 
@@ -96,10 +96,9 @@ class DataKeluargaAnggotaController extends Controller
 
     public function destroy($id)
     {
-        if (!Auth::user()->hasRole('Admin')) {
-            abort(403, 'Hanya Admin yang dapat menghapus data.');
+        if (! (Auth::user()->hasRole('Admin') || Auth::user()->hasRole('Kader') || Auth::user()->hasRole('Pengurus')) ) {
+            abort(403, 'Anda tidak memiliki izin untuk menghapus data.');
         }
-
         $anggota = DataKeluargaAnggota::findOrFail($id);
         $keluarga_id = $anggota->keluarga_id;
         $anggota->delete();

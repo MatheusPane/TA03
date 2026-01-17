@@ -12,7 +12,7 @@ class KegiatanWargaController extends Controller
 {
     public function index($warga_id)
 {
-    $this->authorizeRole(['Admin', 'Kader']);
+    $this->authorizeRole(['Admin', 'Kader', 'Pengurus']);
     $warga = DataWarga::findOrFail($warga_id);
     
     // Load semua referensi + data warga (jika sudah ada)
@@ -27,7 +27,7 @@ class KegiatanWargaController extends Controller
 }
     public function dashboard()
     {
-        $this->authorizeRole(['Admin', 'Kader']);
+        $this->authorizeRole(['Admin', 'Kader', 'Pengurus']);
 
         $wargaList = DataWarga::withCount([
             'kegiatanWarga as kegiatan_aktif_count' => function($q) {
@@ -44,7 +44,7 @@ class KegiatanWargaController extends Controller
 
     public function create($warga_id)
     {
-        $this->authorizeRole(['Admin', 'Kader']);
+        $this->authorizeRole(['Admin', 'Kader', 'Pengurus']);
         $warga = DataWarga::findOrFail($warga_id);
         $refKegiatan = RefKegiatanWarga::where('active', true)->orderBy('nama')->get();
 
@@ -53,7 +53,7 @@ class KegiatanWargaController extends Controller
 
     public function store(Request $request, $warga_id)
 {
-    $this->authorizeRole(['Admin', 'Kader']);
+    $this->authorizeRole(['Admin', 'Kader', 'Pengurus']);
 
     $request->validate([
         'ref_kegiatan_id' => 'required|exists:ref_kegiatan_warga,id',
@@ -75,7 +75,7 @@ class KegiatanWargaController extends Controller
 
     public function edit($warga_id, $id)
     {
-        $this->authorizeRole(['Admin', 'Kader']);
+        $this->authorizeRole(['Admin', 'Kader', 'Pengurus']);
         $warga = DataWarga::findOrFail($warga_id);
         $kegiatan = KegiatanWarga::where('warga_id', $warga_id)->findOrFail($id);
         $refKegiatan = RefKegiatanWarga::where('active', true)->get();
@@ -85,7 +85,7 @@ class KegiatanWargaController extends Controller
 
     public function update(Request $request, $warga_id, $id)
     {
-        $this->authorizeRole(['Admin', 'Kader']);
+        $this->authorizeRole(['Admin', 'Kader', 'Pengurus']);
 
         $request->validate([
             'ikut' => 'required|boolean',
@@ -105,7 +105,7 @@ class KegiatanWargaController extends Controller
 
     public function destroy($warga_id, $id)
     {
-        $this->authorizeRole(['Admin', 'Kader']);
+        $this->authorizeRole(['Admin', 'Kader', 'Pengurus']);
 
         $kegiatan = KegiatanWarga::where('warga_id', $warga_id)->findOrFail($id);
         $kegiatan->delete();

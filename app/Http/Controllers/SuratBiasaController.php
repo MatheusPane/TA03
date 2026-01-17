@@ -13,14 +13,14 @@ class SuratBiasaController extends Controller
 {
     public function index()
     {
-        $this->authorizeRole(['Admin', 'Kader']);
+        $this->authorizeRole(['Admin', 'Pengurus']);
         $surat = SuratBiasa::with(['creator', 'jabatan'])->active()->latest()->get();
         return view('surat_biasa.index', compact('surat'));
     }
 
     public function create()
     {
-        $this->authorizeRole(['Admin', 'Kader']);
+        $this->authorizeRole(['Admin', 'Pengurus']);
         $nomorOtomatis = $this->generateNomorOtomatis();
         $jabatan = RefJabatan::active()->orderBy('nama')->get();
         return view('surat_biasa.create', compact('nomorOtomatis', 'jabatan'));
@@ -28,7 +28,7 @@ class SuratBiasaController extends Controller
 
     public function store(Request $request)
     {
-        $this->authorizeRole(['Admin', 'Kader']);
+        $this->authorizeRole(['Admin', 'Pengurus']);
 
         $request->validate([
             'nomor' => 'required|unique:surat_biasas,nomor',
@@ -64,21 +64,21 @@ class SuratBiasaController extends Controller
 
     public function show(SuratBiasa $suratBiasa)
     {
-        $this->authorizeRole(['Admin', 'Kader']);
+        $this->authorizeRole(['Admin', 'Pengurus']);
         $suratBiasa->load(['creator', 'jabatan']);
         return view('surat_biasa.show', compact('suratBiasa'));
     }
 
     public function edit(SuratBiasa $suratBiasa)
     {
-        $this->authorizeRole(['Admin', 'Kader']);
+        $this->authorizeRole(['Admin', 'Pengurus']);
         $jabatan = RefJabatan::active()->orderBy('nama')->get();
         return view('surat_biasa.edit', compact('suratBiasa', 'jabatan'));
     }
 
     public function update(Request $request, SuratBiasa $suratBiasa)
     {
-        $this->authorizeRole(['Admin', 'Kader']);
+        $this->authorizeRole(['Admin', 'Pengurus']);
 
         $request->validate([
             'nomor' => 'required|unique:surat_biasas,nomor,' . $suratBiasa->id,
@@ -125,7 +125,7 @@ class SuratBiasaController extends Controller
 
     public function cetak(SuratBiasa $suratBiasa)
     {
-        $this->authorizeRole(['Admin', 'Kader']);
+        $this->authorizeRole(['Admin', 'Pengurus']);
         $suratBiasa->load('jabatan');
         $pdf = Pdf::loadView('surat_biasa.pdf', compact('suratBiasa'))
                   ->setPaper('a4', 'portrait');

@@ -12,7 +12,7 @@
                             <h4 class="mb-0 fw-bold">Data Warga</h4>
                         </div>
                         <div class="col-auto">
-                            @if(Auth::user()->hasRole('Admin') || Auth::user()->hasRole('Kader'))
+                            @if(Auth::user()->hasRole('Admin') || Auth::user()->hasRole('Kader')|| Auth::user()->hasRole('Pengurus'))
                                 <a href="{{ route('data_warga.create') }}" 
                                    class="btn btn-tombol-tambah d-flex align-items-center gap-2 shadow-sm fw-bold"
                                    style="border-radius: 12px; min-width: 140px;">
@@ -131,8 +131,8 @@
 <script>
 $(document).ready(function() {
     window.Laravel = {
-        canEdit: @json(Auth::user()->hasRole(['Admin', 'Kader'])),
-        canDelete: @json(Auth::user()->hasRole('Admin')),
+        canEdit: @json(Auth::user()->hasRole('Admin') || Auth::user()->hasRole('Kader') || Auth::user()->hasRole('Pengurus')),
+        canDelete: @json(Auth::user()->hasRole('Admin') || Auth::user()->hasRole('Kader') || Auth::user()->hasRole('Pengurus')),
         routes: {
             show: '{{ route('data_warga.show', ':id') }}',
             edit: '{{ route('data_warga.edit', ':id') }}',

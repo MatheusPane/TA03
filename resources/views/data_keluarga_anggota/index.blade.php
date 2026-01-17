@@ -49,7 +49,7 @@
                 </table journalism
             </div>
 
-            @if(Auth::user()->hasRole('Admin') || Auth::user()->hasRole('Kader'))
+            @if(Auth::user()->hasRole('Admin') || Auth::user()->hasRole('Kader') || Auth::user()->hasRole('Kader'))
                 <a href="{{ route('data_keluarga_anggota.create', $keluarga->id) }}" class="btn btn-primary mt-3" style="border-radius: 10px;">
                     <i class="bi bi-person-plus"></i> Tambah Anggota
                 </a>
@@ -83,8 +83,8 @@
 $(document).ready(function() {
     // Kirim hak akses & route ke JS
     window.Laravel = {
-        canDelete: @json(Auth::user()->hasRole('Admin')),
-        routes: {
+        canDelete: @json(Auth::user()->hasRole('Admin') || Auth::user()->hasRole('Kader') || Auth::user()->hasRole('Pengurus')),
+            routes: {
             destroy: '{{ route('data_keluarga_anggota.destroy', ':id') }}'
         }
     };

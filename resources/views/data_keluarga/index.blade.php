@@ -113,8 +113,8 @@
 <script>
 $(document).ready(function() {
     window.Laravel = {
-        canEdit: @json(Auth::user()->hasRole(['Admin', 'Kader'])),
-        canDelete: @json(Auth::user()->hasRole('Admin')),
+        canEdit: @json(Auth::user()->hasRole('Admin') || Auth::user()->hasRole('Kader') || Auth::user()->hasRole('Pengurus')),
+        canDelete: @json(Auth::user()->hasRole('Admin') || Auth::user()->hasRole('Kader') || Auth::user()->hasRole('Pengurus')),
         routes: {
             show: '{{ route('data_keluarga.show', ':id') }}',
             edit: '{{ route('data_keluarga.edit', ':id') }}',

@@ -37,6 +37,7 @@ use App\Http\Controllers\SuratBiasaController;
 use App\Http\Controllers\SuratEdaranController;
 use App\Http\Controllers\SuratKuasaController;
 use App\Http\Controllers\SuratTugasController;
+use App\Http\Controllers\BukuInventarisController;
 
 // PUBLIC
 Route::get('/', function () {
@@ -64,14 +65,15 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    Route::resource('dusun', DusunController::class);
+    Route::resource('desa-konfigurasi', DesaKonfigurasiController::class);
+    Route::resource('tahun', TahunPemerintahanKonfigurasiController::class);
 
     // === REFERENSI & MASTER DATA (Admin Only) ===
     Route::middleware('is_admin')->group(function () {
         Route::resource('users', UserController::class);
         Route::resource('roles', RoleController::class);
-        Route::resource('tahun', TahunPemerintahanKonfigurasiController::class);
-        Route::resource('dusun', DusunController::class);
-        Route::resource('desa-konfigurasi', DesaKonfigurasiController::class);
+        
         Route::resource('ref_status_perkawinan', RefStatusPerkawinanController::class);
         Route::resource('ref_agama', RefAgamaController::class);
         Route::resource('ref_pendidikan', RefPendidikanController::class);
@@ -112,9 +114,12 @@ Route::middleware('auth')->group(function () {
     Route::resource('surat-tugas', SuratTugasController::class);
      Route::get('surat-tugas/{suratTuga}/cetak', [SuratTugasController::class, 'cetak'])
           ->name('surat-tugas.cetak');
+    // 1. Route custom dulu (print-all, export, dll)
+    Route::get('buku-inventaris/print-all', [BukuInventarisController::class, 'printIndex'])->name('buku-inventaris.print-all');
 
-
-    // === DETAIL KELUARGA (Fasilitas) ===
+    // 2. Baru resource (agar {id} tidak menangkap string seperti "print-all")
+    Route::resource('buku-inventaris', BukuInventarisController::class)->names('buku-inventaris');
+     // === DETAIL KELUARGA (Fasilitas) ===
     Route::prefix('data-keluarga/{keluarga_id}/detail')->name('data_keluarga.detail.')->group(function () {
         Route::get('edit', [DataKeluargaDetailController::class, 'edit'])->name('edit');
         Route::put('update', [DataKeluargaDetailController::class, 'update'])->name('update');

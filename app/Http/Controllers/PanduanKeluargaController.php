@@ -15,7 +15,7 @@ class PanduanKeluargaController extends Controller
 
 public function index(Request $request)
 {
-    if (!Auth::check() || !Auth::user()->hasRole(['Admin', 'Kader'])) {
+    if (!Auth::check() || !Auth::user()->hasRole(['Admin', 'Pengurus'])) {
         abort(403);
     }
 
@@ -47,7 +47,7 @@ public function index(Request $request)
 
 public function show($id)
 {
-    if (!Auth::check() || !Auth::user()->hasRole(['Admin', 'Kader'])) {
+    if (!Auth::check() || !Auth::user()->hasRole(['Admin', 'Pengurus'])) {
         abort(403);
     }
 

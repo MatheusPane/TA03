@@ -649,7 +649,7 @@
                 <!-- Action Buttons -->
                 <div class="col-12 d-print-none">
                     <div class="action-section">
-                        @canany(['Admin', 'Kader'])
+                        @canany(['Admin', 'Kader', 'Pengurus'])
                             <a href="{{ route('data_warga.edit', $warga->id) }}" class="btn btn-warning">
                                 <i class="bi bi-pencil"></i> Edit
                             </a>

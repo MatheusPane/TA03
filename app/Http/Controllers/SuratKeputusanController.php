@@ -14,7 +14,7 @@ class SuratKeputusanController extends Controller
 {
     public function index()
     {
-        $this->authorizeRole(['Admin', 'Kader']);
+        $this->authorizeRole(['Admin', 'Pengurus']);
         $surat = SuratKeputusan::with(['creator', 'updater', 'jabatan'])
             ->active()
             ->latest()
@@ -25,7 +25,7 @@ class SuratKeputusanController extends Controller
 
     public function create()
     {
-        $this->authorizeRole(['Admin', 'Kader']);
+        $this->authorizeRole(['Admin', 'Pengurus']);
         $nomorOtomatis = $this->generateNomorOtomatis();
         $jabatan = RefJabatan::active()->orderBy('nama')->get();
         return view('surat_keputusan.create', compact('nomorOtomatis', 'jabatan'));
@@ -33,7 +33,7 @@ class SuratKeputusanController extends Controller
 
     public function store(Request $request)
     {
-        $this->authorizeRole(['Admin', 'Kader']);
+        $this->authorizeRole(['Admin', 'Pengurus']);
         $request->validate([
             'nomor' => 'required|unique:surat_keputusans,nomor',
             'tentang' => 'required|string|max:255',
@@ -70,21 +70,21 @@ class SuratKeputusanController extends Controller
 
     public function show(SuratKeputusan $suratKeputusan)
     {
-        $this->authorizeRole(['Admin', 'Kader']);
+        $this->authorizeRole(['Admin', 'Pengurus']);
         $suratKeputusan->load(['creator', 'updater', 'jabatan']);
         return view('surat_keputusan.show', compact('suratKeputusan'));
     }
 
     public function edit(SuratKeputusan $suratKeputusan)
     {
-        $this->authorizeRole(['Admin', 'Kader']);
+        $this->authorizeRole(['Admin', 'Pengurus']);
         $jabatan = RefJabatan::active()->orderBy('nama')->get();
         return view('surat_keputusan.edit', compact('suratKeputusan', 'jabatan'));
     }
 
     public function update(Request $request, SuratKeputusan $suratKeputusan)
     {
-        $this->authorizeRole(['Admin', 'Kader']);
+        $this->authorizeRole(['Admin', 'Pengurus']);
         $request->validate([
             'nomor' => 'required|unique:surat_keputusans,nomor,' . $suratKeputusan->id,
             'tentang' => 'required|string|max:255',
@@ -120,7 +120,7 @@ class SuratKeputusanController extends Controller
 
     public function destroy(SuratKeputusan $suratKeputusan)
 {
-    $this->authorizeRole(['Admin', 'Kader']);
+    $this->authorizeRole(['Admin', 'Pengurus']);
     $suratKeputusan->forceDelete();
 
     return redirect()

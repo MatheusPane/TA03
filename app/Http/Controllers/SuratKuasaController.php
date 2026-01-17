@@ -16,7 +16,7 @@ class SuratKuasaController extends Controller
 {
     public function index()
 {
-    $this->authorizeRole(['Admin', 'Kader']);
+    $this->authorizeRole(['Admin', 'Pengurus']);
     
     $surat = SuratKuasa::with([
         'pemberiKuasa.jabatan',
@@ -30,7 +30,7 @@ class SuratKuasaController extends Controller
 
     public function create()
 {
-    $this->authorizeRole(['Admin', 'Kader']);
+    $this->authorizeRole(['Admin', 'Pengurus']);
     $nomorOtomatis = $this->generateNomorOtomatis();
 
     // HAPUS 'dusun' DARI with() → karena tidak ada relasi
@@ -43,7 +43,7 @@ class SuratKuasaController extends Controller
 
     public function store(Request $request)
     {
-        $this->authorizeRole(['Admin', 'Kader']);
+        $this->authorizeRole(['Admin', 'Pengurus']);
         $request->validate([
             'nomor' => 'required|unique:surat_kuasas,nomor',
             'pemberi_kuasa_id' => 'required|exists:data_warga,id',
@@ -70,7 +70,7 @@ class SuratKuasaController extends Controller
 
     public function show(SuratKuasa $suratKuasa)
 {
-    $this->authorizeRole(['Admin', 'Kader']);
+    $this->authorizeRole(['Admin', 'Pengurus']);
     
     // HAPUS .dusun → karena tidak ada relasi di DataWarga
     $suratKuasa->load([
@@ -85,7 +85,7 @@ class SuratKuasaController extends Controller
 
     public function edit(SuratKuasa $suratKuasa)
 {
-    $this->authorizeRole(['Admin', 'Kader']);
+    $this->authorizeRole(['Admin', 'Pengurus']);
     
     // HAPUS 'dusun' dari with()
     $warga = DataWarga::with('jabatan')->active()->orderBy('nama')->get();
@@ -97,7 +97,7 @@ class SuratKuasaController extends Controller
 
     public function update(Request $request, SuratKuasa $suratKuasa)
     {
-        $this->authorizeRole(['Admin', 'Kader']);
+        $this->authorizeRole(['Admin', 'Pengurus']);
         $request->validate([
             'nomor' => 'required|unique:surat_kuasas,nomor,' . $suratKuasa->id,
             'pemberi_kuasa_id' => 'required|exists:data_warga,id',
@@ -132,7 +132,7 @@ class SuratKuasaController extends Controller
 
     public function cetak(SuratKuasa $suratKuasa)
 {
-    $this->authorizeRole(['Admin', 'Kader']);
+    $this->authorizeRole(['Admin', 'Pengurus']);
     
     // Load hanya relasi yang ada
     $suratKuasa->load([

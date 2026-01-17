@@ -1,7 +1,7 @@
 <aside class="app-sidebar">
     <div class="sidebar-brand">
         <a href="{{ url('/dashboard') }}" class="brand-link">
-            <img src="{{ asset('assets/img/AdminLTELogo.png') }}" alt="Logo" class="brand-image" />
+            <img src="{{ asset('assets/img/logo-pkk.png') }}" alt="Logo" class="brand-image" />
             <span class="brand-text fw-bold">Silalahi Dolok</span>
         </a>
     </div>
@@ -32,12 +32,7 @@
                         <p>Daftar Keluarga</p>
                     </a>
                 </li>
-                <li class="nav-item">
-                    <a href="{{ url('/dasawisma') }}" class="nav-link {{ request()->is('dasawisma*') ? 'active' : '' }}">
-                        <i class="nav-icon bi bi-people"></i>
-                        <p>Dasawisma</p>
-                    </a>
-                </li>
+                
                 <li class="nav-item">
                     <a href="{{ route('kegiatan_warga.dashboard') }}" 
                        class="nav-link {{ request()->routeIs('kegiatan_warga.*') ? 'active' : '' }}">
@@ -45,6 +40,7 @@
                         <p>Kegiatan Warga</p>
                     </a>
                 </li>
+                @if(Auth::check() && Auth::user()->hasRole('Admin') || Auth::check() && Auth::user()->hasRole('Pengurus'))
                 <li class="nav-item">
                     <a href="{{ route('panduan_keluarga.index') }}" 
                        class="nav-link {{ request()->routeIs('panduan_keluarga.*') ? 'active' : '' }}">
@@ -52,7 +48,12 @@
                         <p>Panduan Catatan Keluarga</p>
                     </a>
                 </li>
-
+                <li class="nav-item">
+                    <a href="{{ url('/dasawisma') }}" class="nav-link {{ request()->is('dasawisma*') ? 'active' : '' }}">
+                        <i class="nav-icon bi bi-people"></i>
+                        <p>Dasawisma</p>
+                    </a>
+                </li>
                 <!-- 3. KELOLA SURAT (Treeview - Bisa Dibuka/Tutup) -->
                 <li class="nav-header">Kelola Surat</li>
                 <li class="nav-item has-treeview {{ request()->routeIs('surat_*') || request()->routeIs('surat-*') ? 'menu-open' : '' }}">
@@ -96,7 +97,13 @@
                         </li>
                     </ul>
                 </li>
-
+                <li class="nav-header">INVENTARIS</li>
+                <li class="nav-item">
+                    <a href="{{ route('buku-inventaris.index') }}" class="nav-link {{ request()->routeIs('buku-inventaris.*') ? 'active' : '' }}">
+                        <i class="nav-icon bi bi-file-earmark-text"></i>
+                        <p>Buku Inventaris</p>
+                    </a>
+                </li>
                 <!-- 4. KONFIGURASI (Treeview - Bisa Dibuka/Tutup) -->
                 <li class="nav-header">KONFIGURASI</li>
                 <li class="nav-item has-treeview {{ request()->is('tahun*') || request()->is('dusun*') || request()->is('desa-konfigurasi*') ? 'menu-open' : '' }}">
@@ -128,7 +135,7 @@
                         </li>
                     </ul>
                 </li>
-
+                @endif
                 <!-- 5. MASTER DATA (Hanya Admin) -->
                 @if(Auth::check() && Auth::user()->hasRole('Admin'))
                     <li class="nav-header">Master Data</li>

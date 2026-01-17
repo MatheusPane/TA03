@@ -18,7 +18,7 @@ class DasawismaController extends Controller
 
     public function create()
     {
-        if (!Auth::user()->hasRole('Admin') && !Auth::user()->hasRole('Kader')) {
+        if (!Auth::user()->hasRole('Admin') && !Auth::user()->hasRole('Pengurus')) {
             abort(403, 'Anda tidak memiliki izin untuk menambahkan Dasawisma.');
         }
 
@@ -30,7 +30,7 @@ class DasawismaController extends Controller
 
     public function store(Request $request)
     {
-        if (!Auth::user()->hasRole('Admin') && !Auth::user()->hasRole('Kader')) {
+        if (!Auth::user()->hasRole('Admin') && !Auth::user()->hasRole('Pengurus')) {
             abort(403, 'Anda tidak memiliki izin untuk menambahkan Dasawisma.');
         }
 
@@ -49,7 +49,7 @@ class DasawismaController extends Controller
 
     public function edit($id)
     {
-        if (!Auth::user()->hasRole('Admin') && !Auth::user()->hasRole('Kader')) {
+        if (!Auth::user()->hasRole('Admin') && !Auth::user()->hasRole('Pengurus')) {
             abort(403, 'Anda tidak memiliki izin untuk mengedit Dasawisma.');
         }
 
@@ -62,7 +62,7 @@ class DasawismaController extends Controller
 
     public function update(Request $request, $id)
     {
-        if (!Auth::user()->hasRole('Admin') && !Auth::user()->hasRole('Kader')) {
+        if (!Auth::user()->hasRole('Admin') && !Auth::user()->hasRole('Pengurus')) {
             abort(403, 'Anda tidak memiliki izin untuk memperbarui Dasawisma.');
         }
 

@@ -469,6 +469,7 @@
         .right {
             transition: transform 0.2s ease;
         }
+        
     </style>
 
     @stack('styles')
@@ -555,18 +556,7 @@
     <!-- MAIN CONTENT -->
     <main class="app-main">
         <div class="app-content">
-            <div class="app-content-header">
-                <div class="container-fluid">
-                    <div class="row align-items-center">
-                        <div class="col">
-                            <h3>
-                                <i class="bi bi-speedometer2"></i>
-                                @yield('title')
-                            </h3>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            
             <div class="app-content-body">
                 <div class="container-fluid">
                     @yield('content')

@@ -14,7 +14,7 @@ class DataKeluargaDetailController extends Controller
 {
     public function edit($keluarga_id)
 {
-    $this->authorizeRole(['Admin', 'Kader']);
+    $this->authorizeRole(['Admin', 'Kader', 'Pengurus']);
 
     $keluarga = DataKeluarga::findOrFail($keluarga_id);
 

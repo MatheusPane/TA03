@@ -324,7 +324,7 @@
                             <i class="bi bi-arrow-left"></i>
                             <span>Kembali</span>
                         </a>
-                        @if(Auth::user()->hasRole(['Admin', 'Kader']))
+                        @if(Auth::user()->hasRole(['Admin', 'Pengurus']))
                             <a href="{{ route('dasawisma_anggota.create', $dasawisma->id) }}" 
                                class="btn btn-add">
                                 <i class="bi bi-person-plus-fill"></i>
@@ -371,7 +371,7 @@
                         
                                 <td class="text-center">
                         
-                                    @if(Auth::user()->hasRole(['Admin', 'Kader']))
+                                    @if(Auth::user()->hasRole(['Admin', 'Pengurus']))
                                     <form action="{{ route('dasawisma_anggota.destroy', [$dasawisma->id, $item->id]) }}" 
                                           method="POST" 
                                           onsubmit="return confirm('Hapus anggota ini?')">

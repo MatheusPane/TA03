@@ -41,7 +41,7 @@ class DataWargaController extends Controller
 
     public function create()
     {
-        $this->authorizeRole(['Admin', 'Kader']);
+        $this->authorizeRole(['Admin', 'Kader','Pengurus']);
 
         return view('data_warga.create', [
             'statusPerkawinan'     =>RefStatusPerkawinan::all(),
@@ -58,7 +58,7 @@ class DataWargaController extends Controller
 
     public function store(Request $request)
     {
-        $this->authorizeRole(['Admin', 'Kader']);
+        $this->authorizeRole(['Admin', 'Kader', 'Pengurus']);
 
         $validator = Validator::make($request->all(), [
             'no_registrasi'         => 'nullable|string|max:50|unique:data_warga,no_registrasi',
@@ -124,7 +124,7 @@ class DataWargaController extends Controller
 
     public function edit($id)
     {
-        $this->authorizeRole(['Admin', 'Kader']);
+        $this->authorizeRole(['Admin', 'Kader', 'Pengurus']);
         $warga = DataWarga::findOrFail($id);
 
         return view('data_warga.edit', [
@@ -143,7 +143,7 @@ class DataWargaController extends Controller
 
     public function update(Request $request, $id)
     {
-        $this->authorizeRole(['Admin', 'Kader']);
+        $this->authorizeRole(['Admin', 'Kader', 'Pengurus']);
 
         $validator = Validator::make($request->all(), [
             'no_registrasi'         => 'nullable|string|max:50|unique:data_warga,no_registrasi,'.$id,
@@ -200,7 +200,7 @@ class DataWargaController extends Controller
 
     public function show($id)
     {
-        $this->authorizeRole(['Admin', 'Kader']);
+        $this->authorizeRole(['Admin', 'Kader', 'Pengurus']);
 
         $warga = DataWarga::with([
             'jabatan', 'statusPerkawinan', 'agama', 'pendidikan', 'pekerjaan',
@@ -215,7 +215,7 @@ class DataWargaController extends Controller
 
     public function destroy($id)
     {
-        $this->authorizeRole(['Admin']);
+        $this->authorizeRole(['Admin', 'Kader', 'Pengurus']);
         DataWarga::findOrFail($id)->delete();
 
         return redirect()->route('data_warga.index')
@@ -223,7 +223,7 @@ class DataWargaController extends Controller
     }
     public function cetak(DataWarga $warga)
     {
-        $this->authorizeRole(['Admin', 'Kader']);
+        $this->authorizeRole(['Admin', 'Kader', 'Pengurus']);
     
         // Load semua relasi biar tidak N+1
         $warga->load([

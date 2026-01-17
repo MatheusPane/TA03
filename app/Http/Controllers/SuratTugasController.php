@@ -15,14 +15,14 @@ class SuratTugasController extends Controller
     // app/Http/Controllers/SuratTugasController.php
 public function index()
 {
-    $this->authorizeRole(['Admin', 'Kader']);
+    $this->authorizeRole(['Admin', 'Pengurus']);
     $surat = SuratTugas::with(['penerimaTugas.jabatan', 'dusun', 'jabatan'])->active()->latest()->get();
     return view('surat_tugas.index', compact('surat'));
 }
 
 public function create()
 {
-    $this->authorizeRole(['Admin', 'Kader']);
+    $this->authorizeRole(['Admin', 'Pengurus']);
     $nomorOtomatis = $this->generateNomorOtomatis();
     $warga = DataWarga::with('jabatan')->active()->orderBy('nama')->get();
     $dusun = Dusun::active()->orderBy('nama')->get();
@@ -32,7 +32,7 @@ public function create()
 
 public function store(Request $request)
 {
-    $this->authorizeRole(['Admin', 'Kader']);
+    $this->authorizeRole(['Admin', 'Pengurus']);
     $request->validate([
         'nomor' => 'required|unique:surat_tugas,nomor',
         'dasar.*' => 'nullable|string',
@@ -63,14 +63,14 @@ public function store(Request $request)
 
 public function show(SuratTugas $suratTuga)
 {
-    $this->authorizeRole(['Admin', 'Kader']);
+    $this->authorizeRole(['Admin', 'Pengurus']);
     $suratTuga->load(['penerimaTugas.jabatan', 'dusun', 'jabatan']);
     return view('surat_tugas.show', compact('suratTuga'));
 }
 
 public function edit(SuratTugas $suratTuga)
 {
-    $this->authorizeRole(['Admin', 'Kader']);
+    $this->authorizeRole(['Admin', 'Pengurus']);
     $warga = DataWarga::with('jabatan')->active()->orderBy('nama')->get();
     $dusun = Dusun::active()->orderBy('nama')->get();
     $jabatan = RefJabatan::active()->orderBy('nama')->get();
@@ -79,7 +79,7 @@ public function edit(SuratTugas $suratTuga)
 
 public function update(Request $request, SuratTugas $suratTuga)
 {
-    $this->authorizeRole(['Admin', 'Kader']);
+    $this->authorizeRole(['Admin', 'Pengurus']);
     $request->validate([
         'nomor' => 'required|unique:surat_tugas,nomor,' . $suratTuga->id,
         'dasar.*' => 'nullable|string',
@@ -110,7 +110,7 @@ public function update(Request $request, SuratTugas $suratTuga)
 
 public function destroy(SuratTugas $suratTuga)
 {
-    $this->authorizeRole(['Admin']);
+    $this->authorizeRole(['Admin', 'Pengurus']);
     $suratTuga->update(['active' => false]);
     $suratTuga->delete();
     return redirect()->route('surat-tugas.index')->with('success', 'Surat diarsipkan!');
@@ -119,7 +119,7 @@ public function destroy(SuratTugas $suratTuga)
 // app/Http/Controllers/SuratTugasController.php
 public function cetak(SuratTugas $suratTuga)
 {
-    $this->authorizeRole(['Admin', 'Kader']);
+    $this->authorizeRole(['Admin', 'Pengurus']);
 
     // LOAD RELASI → WAJIB!
     $suratTuga->load([

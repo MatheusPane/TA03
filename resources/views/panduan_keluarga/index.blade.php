@@ -7,7 +7,7 @@
     <div class="content-card" style="border-radius: 15px; overflow: hidden; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
         <div class="card-header-custom" style="border-bottom: 2px solid rgba(0,0,0,0.05); padding: 15px; display: flex; justify-content: space-between; align-items: center;">
             <h4 style="font-weight: 700; color: var(--text-dark); margin: 0;">Panduan Catatan Keluarga PKK</h4>
-            @if(Auth::user()->hasRole('Admin') || Auth::user()->hasRole('Kader'))
+            @if(Auth::user()->hasRole('Admin') || Auth::user()->hasRole('Pengurus'))
                 <a href="{{ route('panduan_keluarga.show', $keluargaList->first()->id ?? 1) }}" class="btn btn-primary" style="border-radius: 10px;">
                     Lihat Contoh
                 </a>
@@ -103,7 +103,7 @@
 <script>
 $(document).ready(function() {
     window.Laravel = {
-        canView: @json(Auth::user()->hasRole('Admin') || Auth::user()->hasRole('Kader')),
+        canView: @json(Auth::user()->hasRole('Admin') || Auth::user()->hasRole('Pengurus')),
         routes: {
             show: '{{ route('panduan_keluarga.show', ':id') }}'
         }

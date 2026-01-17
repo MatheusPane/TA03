@@ -492,7 +492,7 @@
                             </tbody>
                         </table>
                     </div>
-                    @canany(['Admin', 'Kader'])
+                    @canany(['Admin', 'Kader', 'Pengurus'])
                     <div class="mt-3">
                         <a href="{{ route('data_keluarga_anggota.create', $keluarga->id) }}" class="btn btn-success btn-sm">
                             <i class="bi bi-plus-lg"></i> Tambah Anggota
@@ -569,7 +569,7 @@
                             </table>
                         </div>
                     </div>
-                    @canany(['Admin', 'Kader'])
+                    @canany(['Admin', 'Kader', 'Pengurus'])
                     <div class="mt-3">
                         <a href="{{ route('data_keluarga.detail.edit', $keluarga->id) }}" class="btn btn-warning btn-sm">
                             <i class="bi bi-pencil-square"></i> Edit Detail Fasilitas
@@ -604,7 +604,7 @@
         <!-- Aksi -->
         <div class="col-12">
             <div class="d-flex justify-content-end gap-2">
-                @canany(['Admin', 'Kader'])
+                @canany(['Admin', 'Kader', 'Pengurus'])
                 <a href="{{ route('data_keluarga.edit', $keluarga->id) }}" class="btn btn-warning">
                     <i class="bi bi-pencil-square"></i> Edit KK
                 </a>

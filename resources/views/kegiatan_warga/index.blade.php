@@ -4,131 +4,130 @@
 
 @push('styles')
 <style>
-    /* Container */
-    
-    .kegiatan-container {
-        background: var(--bg-sidebar);
-        border: 1px solid var(--border-color);
-        border-radius: 12px;
-        overflow: hidden;
-    }
+    /* ============================
+   FIX DARK/LIGHT MODE — FOLLOW STYLE DASAWISMA
+   ============================ */
 
-    /* Header */
-    .kegiatan-header {
-        background: var(--bg-sidebar);
-        padding: 1.25rem 1.5rem;
-        border-bottom: 1px solid var(--border-color);
-        position: relative;
-    }
+/* Container */
+.kegiatan-container {
+    background: var(--bg-content);
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+    border: 1px solid rgba(0,0,0,0.05);
+}
 
-    .kegiatan-header::before {
-        content: '';
-        position: absolute;
-        top: 0; bottom: 0; left: 0;
-        width: 4px;
-        background: linear-gradient(180deg, var(--primary), var(--primary-dark));
-    }
+/* Header */
+.kegiatan-header {
+    background: var(--bg-content);
+    padding: 15px 20px;
+    border-bottom: 1px solid rgba(0,0,0,0.1);
+}
 
-    .kegiatan-header h4 {
-        margin: 0;
-        font-weight: 700;
-        color: var(--text-primary);
-    }
+.kegiatan-header h4 {
+    margin: 0;
+    font-weight: 700;
+    color: var(--text-dark);
+}
 
-    .header-buttons .btn {
-        border-radius: 8px;
-        font-weight: 600;
-        padding: 0.45rem 1rem;
-    }
+.btn-dashboard {
+    background: var(--primary);
+    border-radius: 8px;
+    border: none;
+    color: white;
+    font-weight: 600;
+}
+.btn-dashboard:hover {
+    background: var(--primary-dark);
+}
 
-    .btn-back {
-        background: var(--bg-content);
-        border: 1px solid var(--border-color);
-        color: var(--text-primary);
-    }
-    .btn-back:hover {
-        background: var(--border-color);
-    }
+.btn-back {
+    background: var(--bg-content);
+    border: 1px solid rgba(0,0,0,0.15);
+    color: var(--text-dark);
+    border-radius: 8px;
+    font-weight: 600;
+}
+[data-theme="dark"] .btn-back {
+    border-color: rgba(255,255,255,0.2);
+    color: white;
+}
+.btn-back:hover {
+    background: rgba(0,0,0,0.08);
+}
 
-    .btn-dashboard {
-        background: var(--primary);
-        border: 1px solid var(--primary);
-        color: white;
-    }
-    .btn-dashboard:hover {
-        background: var(--primary-dark);
-    }
+/* Table Header – Fix seperti halaman Dasawisma */
+.kegiatan-container table thead {
+    background: linear-gradient(135deg, var(--primary), var(--primary-light));
+    color: white;
+}
+.kegiatan-container table thead th {
+    border: none !important;
+    padding: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 0.85rem;
+}
 
-    /* Table */
-    table {
-        color: var(--text-primary);
-    }
+/* Table Body */
+.kegiatan-container table tbody td {
+    color: var(--text-dark);
+    padding: 12px;
+    border-color: rgba(0,0,0,0.1);
+}
+[data-theme="dark"] .kegiatan-container table tbody td {
+    color: white;
+    border-color: rgba(255,255,255,0.15);
+}
 
-    .table thead {
-        background: var(--bg-content);
-        border-bottom: 2px solid var(--border-color);
-        position: relative;
-    }
-    .table thead::after {
-        content: '';
-        position: absolute;
-        left: 0; right: 0; bottom: 0;
-        height: 3px;
-        background: linear-gradient(90deg, var(--primary), var(--primary-dark));
-    }
+.kegiatan-container table tbody tr:hover {
+    background: rgba(0,0,0,0.05);
+}
+[data-theme="dark"] .kegiatan-container table tbody tr:hover {
+    background: rgba(255,255,255,0.07);
+}
 
-    .table thead th {
-        padding: 1rem;
-        font-weight: 600;
-        font-size: 0.875rem;
-        text-transform: uppercase;
-        color: var(--text-primary);
-        border: none;
-    }
+/* Input Fix */
+.kegiatan-container .form-control {
+    border-radius: 8px;
+    background: var(--bg-content);
+    color: var(--text-dark);
+    border: 1px solid rgba(0,0,0,0.1);
+}
+[data-theme="dark"] .kegiatan-container .form-control {
+    background: var(--bg-sidebar);
+    color: white;
+    border-color: rgba(255,255,255,0.2);
+}
 
-    .table td {
-        padding: 1rem;
-        border-color: var(--border-color);
-        vertical-align: middle;
-    }
+/* Radio Buttons */
+.btn-outline-success {
+    border-color: #10b981;
+    color: #10b981;
+}
+.btn-outline-success:hover,
+.btn-check:checked + .btn-outline-success {
+    background: #10b981;
+    color: white;
+}
 
-    .table tbody tr:hover {
-        background: var(--bg-content);
-    }
+.btn-outline-secondary {
+    border-color: rgba(0,0,0,0.25);
+    color: var(--text-dark);
+}
+[data-theme="dark"] .btn-outline-secondary {
+    border-color: rgba(255,255,255,0.25);
+    color: white;
+}
+.btn-outline-secondary:hover,
+.btn-check:checked + .btn-outline-secondary {
+    background: rgba(0,0,0,0.1);
+}
+[data-theme="dark"] .btn-outline-secondary:hover {
+    background: rgba(255,255,255,0.15);
+}
 
-    /* Input */
-    .form-control {
-        background: var(--bg-content);
-        color: var(--text-primary);
-        border-radius: 8px;
-        border: 1px solid var(--border-color);
-    }
-
-    .btn-outline-success,
-    .btn-outline-secondary {
-        border-radius: 6px;
-    }
-
-    .btn-outline-success {
-        color: #10b981;
-        border-color: #10b981;
-    }
-    .btn-outline-success:hover,
-    .btn-check:checked + .btn-outline-success {
-        background: #10b981;
-        color: white;
-    }
-
-    .btn-outline-secondary {
-        border-color: var(--border-color);
-        color: var(--text-primary);
-    }
-    .btn-outline-secondary:hover,
-    .btn-check:checked + .btn-outline-secondary {
-        background: var(--border-color);
-        color: var(--text-primary);
-    }
-    
+        
 
 </style>
 @endpush
@@ -146,7 +145,7 @@
 
             <div class="header-buttons d-flex gap-2">
                 <a href="{{ route('kegiatan_warga.dashboard') }}" class="btn btn-dashboard">
-                    <i class="bi bi-speedometer2"></i> Dashboard
+                    <i class="bi bi-speedometer2"></i> Kembali
                 </a>
                 <a href="{{ route('data_warga.show', $warga->id) }}" class="btn btn-back">
                     <i class="bi bi-person"></i> Profil

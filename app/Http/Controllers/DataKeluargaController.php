@@ -30,7 +30,7 @@ class DataKeluargaController extends Controller
 
     public function create()
     {
-        $this->authorizeRole(['Admin', 'Kader']);
+        $this->authorizeRole(['Admin', 'Kader', 'Pengurus']);
         $dusun = Dusun::all();
         $dasawisma = Dasawisma::all();
         return view('data_keluarga.create', compact('dusun', 'dasawisma'));
@@ -38,7 +38,7 @@ class DataKeluargaController extends Controller
 
     public function store(Request $request)
     {
-        $this->authorizeRole(['Admin', 'Kader']);
+        $this->authorizeRole(['Admin', 'Kader', 'Pengurus']);
 
         $validated = $request->validate([
             'no_kk' => 'required|string|max:20|unique:data_keluarga,no_kk',
@@ -83,7 +83,7 @@ class DataKeluargaController extends Controller
 }
     public function edit($id)
     {
-        $this->authorizeRole(['Admin', 'Kader']);
+        $this->authorizeRole(['Admin', 'Kader', 'Pengurus']);
         $keluarga = DataKeluarga::findOrFail($id);
         $dusun = Dusun::all();
         $dasawisma = Dasawisma::all();
@@ -92,7 +92,7 @@ class DataKeluargaController extends Controller
 
     public function update(Request $request, $id)
     {
-        $this->authorizeRole(['Admin', 'Kader']);
+        $this->authorizeRole(['Admin', 'Kader', 'Pengurus']);
 
         $validated = $request->validate([
             'no_kk' => 'required|string|max:20|unique:data_keluarga,no_kk,' . $id,
@@ -109,7 +109,7 @@ class DataKeluargaController extends Controller
 
     public function destroy($id)
     {
-        $this->authorizeRole(['Admin']);
+        $this->authorizeRole(['Admin', 'Kader', 'Pengurus']);
 
         $keluarga = DataKeluarga::findOrFail($id);
 

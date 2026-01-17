@@ -24,7 +24,7 @@ class DasawismaAnggotaController extends Controller
     // FORM TAMBAH ANGGOTA (dari dasawisma tertentu)
     public function create($dasawisma_id)
     {
-        if (!Auth::user()->hasRole(['Admin', 'Kader'])) {
+        if (!Auth::user()->hasRole(['Admin', 'Pengurus'])) {
             abort(403);
         }
 
@@ -42,7 +42,7 @@ class DasawismaAnggotaController extends Controller
     // SIMPAN ANGGOTA
     public function store(Request $request, $dasawisma_id)
     {
-        if (!Auth::user()->hasRole(['Admin', 'Kader'])) {
+        if (!Auth::user()->hasRole(['Admin', 'Pengurus'])) {
             abort(403);
         }
 
@@ -65,7 +65,7 @@ class DasawismaAnggotaController extends Controller
     }
     public function edit($id)
 {
-    if (!Auth::user()->hasRole('Admin') && !Auth::user()->hasRole('Kader'))  {
+    if (!Auth::user()->hasRole('Admin') && !Auth::user()->hasRole('Pengurus'))  {
         abort(403);
     }
 
@@ -76,7 +76,7 @@ class DasawismaAnggotaController extends Controller
 
 public function update(Request $request, $id)
 {
-    if (!Auth::user()->hasRole(['Admin', 'Kader'])) {
+    if (!Auth::user()->hasRole(['Admin', 'Pengurus'])) {
         abort(403);
     }
 
