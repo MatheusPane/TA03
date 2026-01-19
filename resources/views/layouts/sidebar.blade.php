@@ -40,6 +40,12 @@
                         <p>Kegiatan Warga</p>
                     </a>
                 </li>
+                <li class="nav-item">
+                    <a href="{{ url('/kegiatan-warga-detail') }}" class="nav-link {{ request()->is('kegiatan-warga-detail*') ? 'active' : '' }}">
+                        <i class="nav-icon bi bi-calendar-event"></i>
+                        <p>Detail Kegiatan Warga</p>
+                    </a>
+                </li>
                 @if(Auth::check() && Auth::user()->hasRole('Admin') || Auth::check() && Auth::user()->hasRole('Pengurus'))
                 <li class="nav-item">
                     <a href="{{ route('panduan_keluarga.index') }}" 
@@ -52,6 +58,18 @@
                     <a href="{{ url('/dasawisma') }}" class="nav-link {{ request()->is('dasawisma*') ? 'active' : '' }}">
                         <i class="nav-icon bi bi-people"></i>
                         <p>Dasawisma</p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ url('/kader') }}" class="nav-link {{ request()->is('kader') ? 'active' : '' }}">
+                        <i class="nav-icon bi bi-people"></i>
+                        <p>Kader</p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ url('/statistik-dusun') }}" class="nav-link {{ request()->is('statistik-dusun') ? 'active' : '' }}">
+                        <i class="nav-icon bi bi-people"></i>
+                        <p>Data Umum</p>
                     </a>
                 </li>
                 <!-- 3. KELOLA SURAT (Treeview - Bisa Dibuka/Tutup) -->
@@ -230,6 +248,12 @@
                                 <a href="{{ url('/ref_makanan_pokok') }}" class="nav-link {{ request()->is('ref_makanan_pokok*') ? 'active' : '' }}">
                                     <i class="nav-icon bi bi-calendar-event"></i>
                                     <p>Makanan Pokok</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ url('/ref-jenis-kader') }}" class="nav-link {{ request()->is('ref-jenis-kader*') ? 'active' : '' }}">
+                                    <i class="nav-icon bi bi-calendar-event"></i>
+                                    <p>Jenis Kader</p>
                                 </a>
                             </li>
                             <!-- Tambahkan referensi lain jika perlu -->

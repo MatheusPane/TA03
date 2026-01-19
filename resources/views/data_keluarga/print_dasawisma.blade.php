@@ -27,7 +27,7 @@
 </head>
 <body>
 
-    <h2>REKAPITULASI<br>CATATAN DATA DAN KEGIATAN WARGA<br>KELOMPOK DASA WISMA</h2>
+    <h2>REKAPITULASI<br>CATATAN DATA DAN KEGIATAN WARGA<br>KELOMPOK DASAWISMA</h2>
 
     <div class="info">
         <table>

@@ -32,4 +32,8 @@ class RefKegiatanWarga extends Model
     {
         return $this->hasMany(KegiatanWarga::class, 'ref_kegiatan_id');
     }
+    public function jenisKader()
+    {
+        return $this->hasMany(RefJenisKader::class, 'ref_kegiatan_warga_id');
+    }
 }

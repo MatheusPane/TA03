@@ -38,7 +38,12 @@ use App\Http\Controllers\SuratEdaranController;
 use App\Http\Controllers\SuratKuasaController;
 use App\Http\Controllers\SuratTugasController;
 use App\Http\Controllers\BukuInventarisController;
-
+use App\Http\Controllers\StatistikDusunController;
+use App\Http\Controllers\RefJenisKaderController;
+use App\Http\Controllers\KaderController;
+use App\Http\Controllers\RekapKaderController;
+use App\Http\Controllers\KegiatanWargaDetailController;
+use App\Http\Controllers\RekapitulasiPKKController;
 // PUBLIC
 Route::get('/', function () {
     return redirect()->route('login');
@@ -174,7 +179,18 @@ Route::prefix('dasawisma/{dasawisma_id}/anggota')->name('dasawisma_anggota.')->g
         });
 
         // routes/web.php
-
+        Route::get('/statistik-dusun', [StatistikDusunController::class, 'index']); 
+        Route::get('/statistik-dusun/print', [StatistikDusunController::class, 'print'])
+            ->name('statistik.dusun.print');
+        Route::resource('ref-jenis-kader', RefJenisKaderController::class);
+        Route::resource('kader', KaderController::class);
+        Route::get('laporan/rekap-kader', [RekapKaderController::class, 'index'])
+            ->name('laporan.rekap-kader');
+        Route::resource('kegiatan-warga-detail',KegiatanWargaDetailController::class);
+        Route::get('/laporan/rekapitulasi-pkk', 
+                [RekapitulasiPKKController::class, 'index']
+                 )->name('laporan.rekapitulasi.pkk');
+                 
 Route::middleware(['auth'])
     ->prefix('surat-keputusan')
     ->name('surat_keputusan.')

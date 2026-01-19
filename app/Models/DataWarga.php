@@ -133,5 +133,31 @@ class DataWarga extends Model
     public function getKebutuhanKhususNamaAttribute()
     {
         return $this->kebutuhanKhusus?->nama ?? '-';
+    }   
+    public function kader()
+    {
+        return $this->hasMany(Kader::class, 'warga_id');
     }
+    public function keluargaAnggota()
+        {
+            return $this->hasOne(DataKeluargaAnggota::class, 'warga_id');
+        }
+
+        public function keluarga()
+        {
+            return $this->hasOneThrough(
+                DataKeluarga::class,
+                DataKeluargaAnggota::class,
+                'warga_id',
+                'id',
+                'id',
+                'keluarga_id'
+            );
+        }
+
+        public function dusun()
+        {
+            return $this->keluarga?->dusun();
+        }
+
 }

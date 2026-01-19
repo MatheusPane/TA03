@@ -33,4 +33,12 @@ class Dusun extends Model
     {
         return $query->where('active', true);
     }
+    public function warga()
+    {
+        return $this->hasMany(DataWarga::class, 'dusun_id');
+    }
+    public function keluarga()
+    {
+        return $this->hasMany(DataKeluarga::class, 'dusun_id');
+    }
 }

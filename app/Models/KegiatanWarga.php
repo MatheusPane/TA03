@@ -18,4 +18,20 @@ class KegiatanWarga extends Model
     {
         return $this->belongsTo(RefKegiatanWarga::class, 'ref_kegiatan_id');
     }
+    public function detail()
+    {
+        return $this->hasMany(
+            KegiatanWargaDetail::class,
+            'kegiatan_warga_id'
+        );
+    }
+    public function jenisKader()
+    {
+        return $this->belongsToMany(
+            RefJenisKader::class,
+            'kegiatan_warga_detail',
+            'kegiatan_warga_id',
+            'ref_jenis_kader_id'
+        );
+    }
 }
